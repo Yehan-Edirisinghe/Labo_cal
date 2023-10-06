@@ -1,7 +1,26 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
-with open()
 
-fix,ax = plt.subplot(nrows= 1, ncols=1)
-ax.hist(sample,color = 'orange')
+
+def file():
+    '''opens the input file and outputs a list with the values as float'''
+    with open(sys.argv[1]) as input_file:
+        sample = [float(x) for x in input_file.readlines()]
+    return sample
+
+def positive(samples):
+    '''prints the first 10 positive elements'''
+
+    pos = []
+    for i in samples:
+        if i>=0:
+            pos.append(i)
+    for j in range(10):
+        print(pos[j])
+
+def hist(sample):
+    fix,ax = plt.subplots(nrows= 1, ncols=1)
+    ax.hist(sample,color = 'orange')
+    plt.show()
