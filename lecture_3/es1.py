@@ -3,10 +3,13 @@ import numpy as np
 import sys
 
 
+
 def file():
     '''opens the input file and outputs a list with the values as float'''
-    with open(sys.argv[1]) as input_file:
-        sample = [float(x) for x in input_file.readlines()]
+    sample = []
+    with open(sys.argv[1],'r') as input_file:
+        for i in input_file:
+            sample.append(i)
     return sample
 
 def positive(sample):
@@ -29,7 +32,7 @@ def hist_N(sample,N:int):
         if i<= N:
             tmp.append(i)
     fig,ax = plt.subplots(nrows=1,ncols=1)
-    ax.hist(tmp,color='orange')
+    ax.hist(sample,color='orange')
     plt.show()
 
 def hist(sample):
@@ -39,9 +42,8 @@ def hist(sample):
 
 
 
-
 if __name__ == '__main__':
     samples = file()
     # positive(samples)
     print(count(samples))
-    hist_N(samples,100)
+    # hist_N(samples,1)
