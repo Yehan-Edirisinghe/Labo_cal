@@ -25,8 +25,9 @@ def count(sample):
 
 def hist_N(sample,N:int):
     tmp = []
-    for i in range(len(sample)) and i <= N:
-        tmp.append(i)
+    for i in range(len(sample)):
+        if i<= N:
+            tmp.append(i)
     fig,ax = plt.subplots(nrows=1,ncols=1)
     ax.hist(tmp,color='orange')
     plt.show()
@@ -40,6 +41,6 @@ def hist(sample):
 
 if __name__ == '__main__':
     samples = file()
-    positive(samples)
+    # positive(samples)
     print(count(samples))
-    hist_N(samples,10)
+    hist_N(samples,100)
