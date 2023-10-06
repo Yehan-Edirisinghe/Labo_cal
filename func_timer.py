@@ -10,3 +10,4 @@ def timer(func):
         print("Execution time of ",func.__name__," is: ", snap2-snap1)
         return result
     return wrap
+
