@@ -14,3 +14,4 @@ print(sample)
 with open('sample.txt', 'w') as output:
     for i in sample:
         output.write(str(i) + '\n')
+        
