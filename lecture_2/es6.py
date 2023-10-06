@@ -1,21 +1,21 @@
 import numpy as np
 
-def x_over_25(l):
-    '''value below which lies the 25% of the values'''
+def value_Over_Percentage(l:list, percentage:float):
+    '''value below which lies the percentage of the values'''
+    
     l.sort()
     lenght = len(l)
-    k = int(lenght*0.25)
+    k = int(lenght*percentage)
     return l[k]
 
-def x_under_25(l):
-    '''value under which lies the 25% of the values'''
+def value_Under_Percentage(l, percentage:float):
+    '''value under which lies the percentage of the values'''
 
     l.sort()
     lenght = len(l)
-    k = int(lenght*0.75)
+    k = int(lenght*percentage)
     return l[k]
-
 
 l = list(range(1000))
 
-print(x_under_25(l))
+print(value_Over_Percentage(l,0.25))
