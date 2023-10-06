@@ -1,4 +1,3 @@
-import es3
 import time
 import numpy as np
 
@@ -8,7 +7,7 @@ a = list(range(k))
 b = list(range(k))
 
 def exec_time(func):
-    '''returns the execution time of argument function'''
+    '''this wrapper returns the execution time of argument function'''
     
     def wrap(*args,**kwargs):
         snap1= time.time()

@@ -16,6 +16,6 @@ def third():
     arr = np.arange(var1,var2,1)
     print(arr)
 
-first()
-second()
-third()
+# first()
+# second()
+# third()
