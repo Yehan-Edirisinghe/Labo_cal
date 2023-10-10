@@ -95,9 +95,6 @@ int** makeImg(long int Width,long int Height){
 
             complex c = {i,j};
             canvas[(long int)((i-Llimit)/dx)][(long int)((j-Ulimit)/dy)] = bound(c);
-            // if(isBound(c)){
-            //     canvas[(long int)((i-Llimit)/dx)][(long int)((j-Ulimit)/dy)] = 255;
-            // }
         }
     }
     return canvas;
