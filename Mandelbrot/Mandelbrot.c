@@ -61,6 +61,7 @@ int isBound(complex c){
 
 image makeImg(long int Width,long int Height){
 
+
     image img;
     img.canvas = malloc(sizeof(long int)*sizeof(long int));
 
