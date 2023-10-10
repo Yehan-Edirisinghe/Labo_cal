@@ -20,11 +20,6 @@ typedef struct complex{
     long double imag;
 }complex;
 
-typedef struct image{
-    
-    int** canvas;
-}image;
-
 complex csum(complex a, complex b){
     
     complex tmp = {a.real,a.imag};
@@ -66,24 +61,13 @@ int isBound(complex c){
     return 1;
 }
 
-void initCanvas(int* canvas,long width,long height){
-
-    canvas = malloc(sizeof(long int)* width);
-
-    for(long int j=0;j<width;j++){
-        canvas[j] = malloc(sizeof(long int)*height);
-    }
-
-}
-
-image makeImg(long int Width,long int Height){
+int** makeImg(long int Width,long int Height){
 
 
-    image img;
-    img.canvas = (int**)malloc(sizeof(long int)* Width);
+    int **canvas = (int**)malloc(sizeof(long int)* Width);
 
     for(long int j=0;j<Width;j++){
-        img.canvas[j] = (int*)malloc(sizeof(int)*Height);
+        canvas[j] = (int*)malloc(sizeof(int)*Height);
     }
 
     long double dx = ((long double)(Rlimit-Llimit))/(long double)Width;
@@ -95,29 +79,31 @@ image makeImg(long int Width,long int Height){
             complex c = {i,j};
             
             if(isBound(c)){
-                img.canvas[(long int)((i-Llimit)/dx)][(long int)((j-Ulimit)/dy)] = 255;
+                canvas[(long int)((i-Llimit)/dx)][(long int)((j-Ulimit)/dy)] = 255;
             }
         }
     }
-    return img;
+    return canvas;
 }
 
-void prtImage(long int Width,long int Height, image img){
+void prtImage(long int Width,long int Height, int** canvas){
     
     long int i,j=0;
     int temp =0;
 
     FILE* imgf;
-    imgf = fopen("Mandelbrot_image.pmg","wb");
+    imgf = fopen("Mandelbrot_Set.png","wb");
+
     fprintf(imgf,"P2\n");
     fprintf(imgf, "%ld %ld\n", Width, Height);
     fprintf(imgf, "255\n");
+    
     for (i = 0; i < Height; i++) { 
         for (j = 0; j < Width; j++) { 
-            temp = img.canvas[j][i]; 
-  
-            // Writing the gray values in the 2D array to the file 
+
+            temp = canvas[j][i]; 
             fprintf(imgf, "%d ", temp); 
+        
         }
         fprintf(imgf, "\n");
     } 
@@ -127,9 +113,9 @@ void prtImage(long int Width,long int Height, image img){
 
 int main(){
     
-    image a = makeImg(w,h);
+    int **canvas = makeImg(w,h);
     
-    prtImage(w,h,a);
+    prtImage(w,h,canvas);
     
     
 }
