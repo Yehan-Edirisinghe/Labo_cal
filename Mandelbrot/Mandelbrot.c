@@ -59,6 +59,7 @@ int isBound(complex c){
     return 1;
 }
 
+
 image makeImg(long int Width,long int Height){
 
 
