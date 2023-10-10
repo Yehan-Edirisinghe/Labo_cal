@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define MAXITERATION 200
-#define k 1
+#define MAXITERATION 255
+#define k 2
 #define w 1080*k
 #define h 720*k
 
-#define Llimit -1
-#define Rlimit  1
+#define Llimit -2
+#define Rlimit  .5
 #define Ulimit  -1
 #define Dlimit  1
 
@@ -26,6 +26,7 @@ complex csum(complex a, complex b){
     tmp.real += b.real;
     tmp.imag += b.imag;
     return tmp;
+
 }
 
 complex cprod(complex a, complex b){
@@ -49,7 +50,6 @@ long double mod(complex z){
 int isBound(complex c){
 
     complex z = {0,0};
-
     for(int i=0;i<MAXITERATION; i++){
         
         z = c_pow(z,n);
@@ -61,8 +61,25 @@ int isBound(complex c){
     return 1;
 }
 
-int** makeImg(long int Width,long int Height){
+int bound(complex c){
+    
+    complex z = {0,0};
+    int counter=0;
 
+    for(int i=0;i<MAXITERATION; i++){
+        
+        z = c_pow(z,n);
+        z = csum(z,c);
+        if(mod(z) >= 2){
+            return counter;
+        }
+        counter++;
+    }
+    return counter;
+}
+
+
+int** makeImg(long int Width,long int Height){
 
     int **canvas = (int**)malloc(sizeof(long int)* Width);
 
@@ -77,10 +94,10 @@ int** makeImg(long int Width,long int Height){
         for(long double j=Ulimit; j<Dlimit; j += (dy)){
 
             complex c = {i,j};
-            
-            if(isBound(c)){
-                canvas[(long int)((i-Llimit)/dx)][(long int)((j-Ulimit)/dy)] = 255;
-            }
+            canvas[(long int)((i-Llimit)/dx)][(long int)((j-Ulimit)/dy)] = bound(c);
+            // if(isBound(c)){
+            //     canvas[(long int)((i-Llimit)/dx)][(long int)((j-Ulimit)/dy)] = 255;
+            // }
         }
     }
     return canvas;
@@ -97,7 +114,7 @@ void prtImage(long int Width,long int Height, int** canvas){
     fprintf(imgf,"P2\n");
     fprintf(imgf, "%ld %ld\n", Width, Height);
     fprintf(imgf, "255\n");
-    
+
     for (i = 0; i < Height; i++) { 
         for (j = 0; j < Width; j++) { 
 
@@ -114,7 +131,6 @@ void prtImage(long int Width,long int Height, int** canvas){
 int main(){
     
     int **canvas = makeImg(w,h);
-    
     prtImage(w,h,canvas);
     
     
