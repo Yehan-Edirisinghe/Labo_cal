@@ -3,13 +3,21 @@
 #include <math.h>
 
 #define MAXITERATION 100
-#define w 1000
-#define h 1000
+#define w 10000
+#define h 10000
+
 typedef struct complex{
-    float real;
-    float imag;
+    long double real;
+    long double imag;
 }complex;
 
+
+
+typedef struct image{
+    long int width;
+    long int height;
+    long int canvas[w][h];
+}image;
 
 complex csum(complex a, complex b){
     
@@ -53,50 +61,69 @@ int isBound(complex c){
     return 1;
 }
 
-int** makeImg(int Width,int Height){
+image makeImg(long int Width,long int Height){
 
-    int **arr;
-    arr = malloc(sizeof(int*)*Width);
-    for(int i=0;i<Height;i++){
-        arr[i] = malloc(sizeof(int)*Height);
-    }
-    for(int i=0;i<Width;i++){
-        for(int j=0;j<Height;j++){
+    image img;
+    long double dx = (long double)2/(long double)Width;
+    long double dy = (long double)2/(long double)Height;
+    for(long double i=-1; i<1;       i += (dx)){
+        for(long double j=-1; j<1;   j +=(dy)){
 
+            // printf("i=%f, j=%f", i,j);
             complex c = {i,j};
+            
             if(isBound(c)){
-                arr[i][j] = 200;
-            }else arr[i][j] = 0;
-
+                // printf("%f,%fi\n",c.real,c.imag);
+                // printf("x =%d, y=%d\n", (int)(i/dx)+Width,(int)(j/dy)+Height);
+                img.canvas[(long int)((i+1)/dx)][(long int)((j+1)/dy)] = 255;
+            }
         }
     }
-    return arr;
+    img.height = h;
+    img.width=w;
+    return img;
 
 }
 
-void prtImage(int Width,int Height, int **image){
+void prtImage(long int Width,long int Height, image img){
     
-    int i,j,temp =0;
+    long int i,j=0;
+    int temp =0;
 
-    FILE* img;
-    img = fopen("Mandelbrot_image.pmg", "wb");
-    fprintf(img,"P2\n");
-    fprintf(img, "%d %d\n", Width, Height);
-    fprintf(img, "255\n");
+    FILE* imgf;
+    imgf = fopen("Mandelbrot_image.pmg", "wb");
+    fprintf(imgf,"P2\n");
+    fprintf(imgf, "%ld %ld\n", Width, Height);
+    fprintf(imgf, "255\n");
     for (i = 0; i < Height; i++) { 
         for (j = 0; j < Width; j++) { 
-            temp = image[i][j]; 
+            temp = img.canvas[j][i]; 
   
             // Writing the gray values in the 2D array to the file 
-            fprintf(img, "%d ", temp); 
-        } 
-        fprintf(img, "\n"); 
+            fprintf(imgf, "%d ", temp); 
+        }
+        fprintf(imgf, "\n");
     } 
-    fclose(img);
+    fclose(imgf);
 }
+
+void prtArr(image a){
+    for(int i=0;i<a.width;i++){
+        for(int j=0;j<a.height;j++){
+            printf("%d,",a.canvas[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 
 
 int main(){
-    int** a = makeImg(w,h);
+    
+    image a = makeImg(w,h);
+    // prtArr(a);
     prtImage(w,h,a);
+    // float a = (float)2/(float)100;
+    // printf("%f",(a));
+    
 }

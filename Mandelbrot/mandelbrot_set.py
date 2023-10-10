@@ -25,17 +25,9 @@ def manSet(ax):
     for i in np.arange(-1,1,2/width):
         for j in np.arange(-1,1,2/height):
             if is_bound(complex(i,j)):
-                ax.plot(i,j,marker='.')
+                ax.plot(i,j,marker='.',markersize=.1)
                 
 
-    
-
-def graph(set):
-    fig,ax = plt.subplots(nrows=1,ncols=1)
-    for x in range(width):
-        for y in range(height):
-            if set[x,y] == 1:
-                ax.plot(x,y,marker='o')
 
 
 if __name__ == '__main__':
@@ -44,7 +36,3 @@ if __name__ == '__main__':
 
     manSet(ax)
     plt.show()
-    # print(a)
-    # graph(a)
-    # plt.show()
-    # print(np.arange(0,1,.1))
