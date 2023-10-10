@@ -11,12 +11,10 @@ typedef struct complex{
     long double imag;
 }complex;
 
-
-
 typedef struct image{
     long int width;
     long int height;
-    long int canvas[w][h];
+    int** canvas;
 }image;
 
 complex csum(complex a, complex b){
@@ -42,7 +40,7 @@ complex c_pow(complex a, int pow){
     return tmp;
 }
 
-float mod(complex z){
+long double mod(complex z){
     return sqrt(pow(z.real,2)+pow(z.imag,2));
 }
 
@@ -64,6 +62,8 @@ int isBound(complex c){
 image makeImg(long int Width,long int Height){
 
     image img;
+    img.canvas = malloc(sizeof(long int)*sizeof(long int));
+
     long double dx = (long double)2/(long double)Width;
     long double dy = (long double)2/(long double)Height;
     for(long double i=-1; i<1;       i += (dx)){
@@ -107,22 +107,12 @@ void prtImage(long int Width,long int Height, image img){
     fclose(imgf);
 }
 
-void prtArr(image a){
-    for(int i=0;i<a.width;i++){
-        for(int j=0;j<a.height;j++){
-            printf("%d,",a.canvas[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-
 
 int main(){
     
     image a = makeImg(w,h);
     // prtArr(a);
-    prtImage(w,h,a);
+    // prtImage(w,h,a);
     // float a = (float)2/(float)100;
     // printf("%f",(a));
     
