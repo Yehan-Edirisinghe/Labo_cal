@@ -1,17 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 #define MAXITERATION 255
-#define k 2
-#define w 1080*k
-#define h 720*k
+#define k 3
+#define w 1080*k        //Width of the image in pixel
+#define h 720*k         //Height of the image in pixel
 
+//Dimensions of the graph in the complex plane
 #define Llimit -2
 #define Rlimit  .5
 #define Ulimit  -1
 #define Dlimit  1
 
+//n power of the z term
 #define n 2
 
 
@@ -47,21 +50,7 @@ long double mod(complex z){
     return sqrt(pow(z.real,2)+pow(z.imag,2));
 }
 
-int isBound(complex c){
-
-    complex z = {0,0};
-    for(int i=0;i<MAXITERATION; i++){
-        
-        z = c_pow(z,n);
-        z = csum(z,c);
-        if(mod(z) > 2){
-            return 0;
-        }
-    }
-    return 1;
-}
-
-int bound(complex c){
+int bound(complex c){         //returns number of iterations necessary to diverge
     
     complex z = {0,0};
     int counter=0;
@@ -128,7 +117,9 @@ void prtImage(long int Width,long int Height, int** canvas){
 int main(){
     
     int **canvas = makeImg(w,h);
+    __clock_t a = clock();
     prtImage(w,h,canvas);
-    
-    
+    __clock_t b = clock();
+    printf("Time : %f", (b-a)/CLOCKS_PER_SEC);
+
 }
