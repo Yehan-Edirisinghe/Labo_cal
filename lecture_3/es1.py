@@ -1,15 +1,16 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.stats import norm
 from math import ceil,sqrt
 import sys
 
 f   = str('eventi_gauss.txt')
 
 
-def file():
+def file(name:str):
     '''opens the input file and outputs a list with the values as float'''
     sample = []
-    with open(f,'r') as input_file:
+    with open(name,'r') as input_file:
         for i in input_file:
             sample.append(float(i))
     return sample
@@ -46,7 +47,7 @@ def count(sample):
 
 def mean(sample):
     '''first momentum'''
-    return (sum(sample)/len(samples))
+    return (sum(sample)/len(sample))
 
 def variance(sample):
     s = 0
@@ -63,14 +64,40 @@ def sturges(sample):
     N = len(sample)
     return ceil(1+3.322*np.log(N))
 
+def gaussian(sample):
+    
+    m   = xMin(sample)
+    M   = xMax(sample)
+    mea =mean(sample)
+    sigma = stdDeviation(sample)
+
+    x = np.arange(m,M,0.1)
+    y = []
+    for i in x:
+        y.append(norm.pdf(i,mea,sigma))
+    fix,ax = plt.subplots(nrows= 1, ncols=1)
+    ax.plot(x,y)
+    plt.show()
+
 def hist(sample):
+
+    m = mean(sample)
+    o = stdDeviation(sample)
 
     N_bins = sturges(sample)
     bin_edges = np.linspace(xMin(sample),xMax(sample),N_bins)
 
     fix,ax = plt.subplots(nrows= 1, ncols=1)
     ax.hist(sample,color = 'salmon',bins=bin_edges)
+    # mean line
+    vertical_limit = ax.get_ylim()
+    ax.plot([m,m],vertical_limit,color='blue')
+    # # std deviation line
+    ax.plot([m+o,m+o],vertical_limit,color='red')
+    ax.plot([m-o,m-o],vertical_limit,color='red')
+
     plt.show()
+
 
 def hist_N(sample,N:int):
 
@@ -79,13 +106,34 @@ def hist_N(sample,N:int):
         tmp.append(sample[i])
     hist(tmp)
 
+class data:
+    
+    def __init__(self,fileName):
+        self.sample = file(fileName)
+        self.mean = mean(self.sample)
+        self.variance = variance(self.sample)
+        self.stdDeviation = stdDeviation(self.sample)
+        self.len = len(self.sample)
 
+    def plot(self):
+        hist(self.sample)
 
+    def plot_N(self,N):
+        hist_N(self.sample,N)
+    
+    def gauss(self):
+        gaussian(self.sample)
 
 if __name__ == '__main__':
 
     # N = int(input("Number of parameters:\t"))
-    samples = file()
-    print(variance(samples))
-    hist(samples)
+    # samples = file(f)
+    # print(variance(samples))
+    # hist(samples)
     # hist_N(samples,N)
+
+    a = data(f)
+    a.plot()
+    a.gauss()
+
+    # print(a.mean)
