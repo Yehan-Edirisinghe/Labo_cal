@@ -28,14 +28,13 @@ def count(sample):
 
 def hist_N(sample,N:int):
     tmp = []
-    for i in range(len(sample)):
-        if i<= N:
-            tmp.append(i)
-    fig,ax = plt.subplots(nrows=1,ncols=1)
-    ax.hist(sample,color='orange')
-    plt.show()
+    for i in range(N):
+        tmp.append(i)
+
+    hist(tmp)
 
 def hist(sample):
+
     fix,ax = plt.subplots(nrows= 1, ncols=1)
     ax.hist(sample,color = 'orange')
     plt.show()
@@ -45,5 +44,4 @@ def hist(sample):
 if __name__ == '__main__':
     samples = file()
     # positive(samples)
-    print(count(samples))
-    # hist_N(samples,1)
+    hist(samples)
