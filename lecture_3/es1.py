@@ -16,7 +16,7 @@ def file(name:str):
     return sample
 
 def xMin(sample):
-
+    '''returns the min value in sample spaace'''
     min=sample[0]
     for i in sample:
         if i<min:
@@ -25,7 +25,7 @@ def xMin(sample):
 
 
 def xMax(sample):
-    
+    '''returns the max value in sample space'''
     max=sample[0]
     for i in sample:
         if i>max:
@@ -50,6 +50,7 @@ def mean(sample):
     return (sum(sample)/len(sample))
 
 def variance(sample):
+    '''returns the variance of the sample space'''
     s = 0
     m = mean(sample)
     for i in sample:
@@ -60,12 +61,12 @@ def stdDeviation(sample):
     return sqrt(variance(sample))
 
 def sturges(sample):
-
+    '''returns the surges function applied to the sample length'''
     N = len(sample)
     return ceil(1+3.322*np.log(N))
 
 def gaussian(sample):
-    
+    '''pkits the gaussian of the sample space'''
     m   = xMin(sample)
     M   = xMax(sample)
     mea =mean(sample)
@@ -80,7 +81,7 @@ def gaussian(sample):
     plt.show()
 
 def hist(sample):
-
+    '''draws a histogram of the sample space'''
     m = mean(sample)
     o = stdDeviation(sample)
 
@@ -100,13 +101,14 @@ def hist(sample):
 
 
 def hist_N(sample,N:int):
-
+    '''hist with the first n elements of sample space'''
     tmp = []
     for i in range(N):
         tmp.append(sample[i])
     hist(tmp)
 
 class data:
+    '''object that rappresenta the sample space''' data with pdf and plotting devices'''
     
     def __init__(self,fileName):
         self.sample = file(fileName)
