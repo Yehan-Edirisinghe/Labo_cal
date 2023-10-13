@@ -4,7 +4,6 @@ from scipy.stats import norm
 from math import ceil,sqrt
 import sys
 
-f   = str('eventi_gauss.txt')
 
 
 def file(name:str):
@@ -79,7 +78,7 @@ def gaussian(sample):
     ax.plot(x,y)
 
 def cumulativeDF(sample,me,std):
-    '''pkits the gaussian of the sample space'''
+    '''poits the gaussian of the sample space'''
     m   = xMin(sample)
     M   = xMax(sample)
 
@@ -88,7 +87,6 @@ def cumulativeDF(sample,me,std):
     for i in x:
         y.append(norm.cdf(i,me,std))
     ax.plot(x,y)
-
 
 
 def hist(sample):
@@ -144,6 +142,8 @@ if __name__ == '__main__':
     # print(variance(samples))
     # hist(samples)
     # hist_N(samples,N)
+    
+    f   = str('eventi_gauss.txt')
     fix,ax = plt.subplots(nrows= 1, ncols=1)
     a = data(f)
     a.hist()
