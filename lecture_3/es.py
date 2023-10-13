@@ -2,12 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
 from math import ceil,sqrt
-import sys
-
 
 
 def file(name:str):
     '''opens the input file and outputs a list with the values as float'''
+
     sample = []
     with open(name,'r') as input_file:
         for i in input_file:
@@ -16,6 +15,7 @@ def file(name:str):
 
 def xMin(sample):
     '''returns the min value in sample spaace'''
+
     min=sample[0]
     for i in sample:
         if i<min:
@@ -25,6 +25,7 @@ def xMin(sample):
 
 def xMax(sample):
     '''returns the max value in sample space'''
+
     max=sample[0]
     for i in sample:
         if i>max:
@@ -42,14 +43,17 @@ def positive(sample):
 
 def count(sample):
     '''returns the number of elements in the file'''
+
     return len(sample)
 
 def mean(sample):
     '''first momentum'''
+
     return (sum(sample)/len(sample))
 
 def variance(sample):
     '''returns the variance of the sample space'''
+
     s = 0
     m = mean(sample)
     for i in sample:
@@ -61,11 +65,13 @@ def stdDeviation(sample):
 
 def sturges(sample):
     '''returns the surges function applied to the sample length'''
+
     N = len(sample)
     return ceil(1+3.322*np.log(N))
 
-def gaussian(sample):
-    '''pkits the gaussian of the sample space'''
+def gaussian(sample,ax):
+    '''plot the gaussian of the sample space'''
+
     m   = xMin(sample)
     M   = xMax(sample)
     mea =mean(sample)
@@ -77,8 +83,9 @@ def gaussian(sample):
         y.append(norm.pdf(i,mea,sigma))
     ax.plot(x,y)
 
-def cumulativeDF(sample,me,std):
-    '''poits the gaussian of the sample space'''
+def cumulativeDF(sample,me,std,ax):
+    '''plots the cumulative df of the sample space'''
+
     m   = xMin(sample)
     M   = xMax(sample)
 
@@ -89,7 +96,7 @@ def cumulativeDF(sample,me,std):
     ax.plot(x,y)
 
 
-def hist(sample):
+def hist(sample,ax):
     '''draws a histogram of the sample space'''
     m = mean(sample)
     o = stdDeviation(sample)
@@ -105,7 +112,7 @@ def hist(sample):
     ax.plot([m+o,m+o],vertical_limit,color='red')
     ax.plot([m-o,m-o],vertical_limit,color='red')
 
-def hist_N(sample,N:int):
+def hist_N(sample,N:int,ax):
     '''hist with the first n elements of sample space'''
     tmp = []
     for i in range(N):
@@ -114,40 +121,53 @@ def hist_N(sample,N:int):
 
 class data:
     '''object that rappresenta the sample space data with pdf and plotting devices'''
-    
     def __init__(self,fileName):
+        
         self.sample = file(fileName)
         self.mean = mean(self.sample)
         self.variance = variance(self.sample)
         self.stdDeviation = stdDeviation(self.sample)
         self.len = len(self.sample)
+        fig,ax = plt.subplots(nrows= 1, ncols=1,label=fileName)
+        self.ax = ax
+        
 
-    def hist(self):
-        hist(self.sample)
+    def hist(self,ax=None):
+        if ax!= None:
+            
+            hist(self.sample,ax)
+        else:
+            hist(self.sample,self.ax)
 
-    def hist_N(self,N):
-        hist_N(self.sample,N)
-    
-    def gauss(self):
-        gaussian(self.sample)
 
-    def cdf(self):
-        cumulativeDF(self.sample,self.mean,self.stdDeviation)
+    def hist_N(self,N,ax=None):
+        if ax!=None:
+            hist_N(self.sample,ax)
+        else:
+            hist_N(self.sample,self.ax)
+
+    def gauss(self,ax=None):
+        if ax!=None:
+            gaussian(self.sample,ax)
+
+        else:
+            gaussian(self.sample,self.ax)
+
+
+    def cdf(self,ax=None):
+        if ax!=None:
+            cumulativeDF(self.sample,self.mean,self.stdDeviation,ax)
+        else:
+            cumulativeDF(self.sample,self.mean,self.stdDeviation,self.ax)
+        
 
 
 if __name__ == '__main__':
-
-    # N = int(input("Number of parameters:\t"))
-    # samples = file(f)
-    # print(variance(samples))
-    # hist(samples)
-    # hist_N(samples,N)
     
     f   = str('eventi_gauss.txt')
-    fix,ax = plt.subplots(nrows= 1, ncols=1)
     a = data(f)
-    a.hist()
-    a.cdf()
+    fig1,ax1=plt.subplots(nrows=1,ncols=2)
+    a.hist(ax=ax1[0])
+    a.gauss(ax=ax1[1])
     plt.show()
 
-    # print(a.mean)
