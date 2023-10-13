@@ -76,9 +76,20 @@ def gaussian(sample):
     y = []
     for i in x:
         y.append(norm.pdf(i,mea,sigma))
-    fix,ax = plt.subplots(nrows= 1, ncols=1)
     ax.plot(x,y)
-    plt.show()
+
+def cumulativeDF(sample,me,std):
+    '''pkits the gaussian of the sample space'''
+    m   = xMin(sample)
+    M   = xMax(sample)
+
+    x = np.arange(m,M,0.1)
+    y = []
+    for i in x:
+        y.append(norm.cdf(i,me,std))
+    ax.plot(x,y)
+
+
 
 def hist(sample):
     '''draws a histogram of the sample space'''
@@ -88,7 +99,6 @@ def hist(sample):
     N_bins = sturges(sample)
     bin_edges = np.linspace(xMin(sample),xMax(sample),N_bins)
 
-    fix,ax = plt.subplots(nrows= 1, ncols=1)
     ax.hist(sample,color = 'salmon',bins=bin_edges)
     # mean line
     vertical_limit = ax.get_ylim()
@@ -96,9 +106,6 @@ def hist(sample):
     # # std deviation line
     ax.plot([m+o,m+o],vertical_limit,color='red')
     ax.plot([m-o,m-o],vertical_limit,color='red')
-
-    plt.show()
-
 
 def hist_N(sample,N:int):
     '''hist with the first n elements of sample space'''
@@ -108,7 +115,7 @@ def hist_N(sample,N:int):
     hist(tmp)
 
 class data:
-    '''object that rappresenta the sample space''' data with pdf and plotting devices'''
+    '''object that rappresenta the sample space data with pdf and plotting devices'''
     
     def __init__(self,fileName):
         self.sample = file(fileName)
@@ -117,14 +124,18 @@ class data:
         self.stdDeviation = stdDeviation(self.sample)
         self.len = len(self.sample)
 
-    def plot(self):
+    def hist(self):
         hist(self.sample)
 
-    def plot_N(self,N):
+    def hist_N(self,N):
         hist_N(self.sample,N)
     
     def gauss(self):
         gaussian(self.sample)
+
+    def cdf(self):
+        cumulativeDF(self.sample,self.mean,self.stdDeviation)
+
 
 if __name__ == '__main__':
 
@@ -133,9 +144,10 @@ if __name__ == '__main__':
     # print(variance(samples))
     # hist(samples)
     # hist_N(samples,N)
-
+    fix,ax = plt.subplots(nrows= 1, ncols=1)
     a = data(f)
-    a.plot()
-    a.gauss()
+    a.hist()
+    a.cdf()
+    plt.show()
 
     # print(a.mean)
