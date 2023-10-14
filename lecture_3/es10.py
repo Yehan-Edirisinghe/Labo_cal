@@ -1,8 +1,4 @@
-import es
-import numpy as np
-from math import factorial as fact,pow
 import matplotlib.pyplot as plt
-from scipy.integrate import quad
 from scipy.stats import binom
 
 
@@ -28,7 +24,7 @@ def cdfBinomial(n,p):
 if __name__ == '__main__':
 
     fig,ax = plt.subplots(nrows=1,ncols=2)
-    
+
     n,p = 100,.4
 
     bin = binomial(n,p)
