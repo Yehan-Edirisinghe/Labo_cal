@@ -8,24 +8,33 @@ from scipy.stats import binom
 
 '''Write a Python program to draw a binomial distribution and its cumulative function'''
 
-def binomial(k,n,p):
+def binomial(n,p):
     
     x = list(range(n))
-    y =[]
-    
-        # y.append(   (fact(n)/(fact(k)*fact(n-k)))*pow(p,k)*pow((1-p),(n-k)) )
-    y=binom.pmf(k,n,p)
+    y =[]    
+    for k in range(n):
+        y.append(binom.pmf(k,n,p))
     return x,y
 
-def cdfBinomial(x_,y_):
+def cdfBinomial(n,p):
 
-    x = x_
+    x = list(range(n))
     y = []
-    for i in range(len(x)):
-        y.append(quad())
+    for k in range(n):
+        y.append(binom.cdf(k,n,p))
     return x,y
 
-fig,ax = plt.subplots(nrows=1,ncols=1)
-x,y = binomial(10,200,.15)
-ax.plot(x,y)
-plt.show()
+
+if __name__ == '__main__':
+
+    fig,ax = plt.subplots(nrows=1,ncols=2)
+    
+    n,p = 100,.4
+
+    bin = binomial(n,p)
+    cum = cdfBinomial(n,p)
+
+    ax[0].plot(bin[0],bin[1])
+    ax[1].plot(cum[0],cum[1])
+
+    plt.show()
