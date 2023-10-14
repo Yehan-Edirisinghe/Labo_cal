@@ -26,4 +26,4 @@ if __name__ == '__main__':
 
     sample = es.file('eventi_gauss.txt')
     a = 1
-    print("Area for {a}-standard deviations",area(sample,a))
+    print("Area for", a, "standard deviations:\t",area(sample,a))
