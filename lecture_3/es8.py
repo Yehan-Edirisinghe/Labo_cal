@@ -2,7 +2,8 @@ import es
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+'''Write a Python program to draw an exponential distribution 
+    and its cumulative function'''
 
 def exponential():
     x = np.arange(-3,3,.5)

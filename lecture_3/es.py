@@ -78,10 +78,8 @@ def gaussian(sample,ax):
     sigma = stdDeviation(sample)
 
     x = np.arange(m,M,0.1)
-    y = []
-    for i in x:
-        y.append(norm.pdf(i,mea,sigma))
-    ax.plot(x,y)
+    y = (norm.pdf(x,mea,sigma))
+    return x,y
 
 def cumulativeDF(sample,me,std,ax):
     '''plots the cumulative df of the sample space'''
@@ -90,10 +88,8 @@ def cumulativeDF(sample,me,std,ax):
     M   = xMax(sample)
 
     x = np.arange(m,M,0.1)
-    y = []
-    for i in x:
-        y.append(norm.cdf(i,me,std))
-    ax.plot(x,y)
+    y = norm.cdf(x,me,std)
+    return x,y
 
 
 def hist(sample,ax):
@@ -122,14 +118,13 @@ def hist_N(sample,N:int,ax):
 class data:
     '''object that rappresenta the sample space data with pdf and plotting devices'''
     def __init__(self,fileName):
-        
+
+        self.fileName = fileName
         self.sample = file(fileName)
         self.mean = mean(self.sample)
         self.variance = variance(self.sample)
         self.stdDeviation = stdDeviation(self.sample)
         self.len = len(self.sample)
-        fig,ax = plt.subplots(nrows= 1, ncols=1,label=fileName)
-        self.ax = ax
         
 
     def hist(self,ax=None):
@@ -137,37 +132,47 @@ class data:
             
             hist(self.sample,ax)
         else:
-            hist(self.sample,self.ax)
+            fig,ax = plt.subplots(nrows= 1, ncols=1,label=self.fileName)
+            hist(self.sample,ax)
 
 
     def hist_N(self,N,ax=None):
         if ax!=None:
             hist_N(self.sample,ax)
         else:
-            hist_N(self.sample,self.ax)
+            fig,ax = plt.subplots(nrows= 1, ncols=1,label=self.fileName)
+            hist_N(self.sample,ax)
 
     def gauss(self,ax=None):
         if ax!=None:
-            gaussian(self.sample,ax)
+            x,y = gaussian(self.sample,ax)
+            ax.plot(x,y)
 
         else:
-            gaussian(self.sample,self.ax)
+            fig,ax = plt.subplots(nrows= 1, ncols=1,label=self.fileName)
+
+            x,y = gaussian(self.sample,ax)
+            ax.plot(x,y)
+
 
 
     def cdf(self,ax=None):
         if ax!=None:
-            cumulativeDF(self.sample,self.mean,self.stdDeviation,ax)
+            x,y = cumulativeDF(self.sample,self.mean,self.stdDeviation,ax)
+            ax.plot(x,y)
+
         else:
-            cumulativeDF(self.sample,self.mean,self.stdDeviation,self.ax)
+            fig,ax = plt.subplots(nrows= 1, ncols=1,label=self.fileName)
+            x,y=cumulativeDF(self.sample,self.mean,self.stdDeviation,ax=ax)
+            ax.plot(x,y)
         
 
 
 if __name__ == '__main__':
     
-    f   = str('eventi_gauss.txt')
-    a = data(f)
-    fig1,ax1=plt.subplots(nrows=1,ncols=2)
-    a.hist(ax=ax1[0])
-    a.gauss(ax=ax1[1])
+    a = data('eventi_gauss.txt')
+    fig1,ax1=plt.subplots(nrows=1,ncols=3)
+    a.gauss(ax=ax1[0])
+    a.cdf(ax=ax1[1])
+    a.hist(ax=ax1[2])
     plt.show()
-
