@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
-from scipy.stats import poisson
+from scipy.stats import poisson,norm
 import numpy as np
-# from es import gaussian
 
 
 '''Write a Python program to draw a Poisson distribution 
@@ -21,7 +20,7 @@ if __name__ == '__main__':
     fig,ax = plt.subplots(nrows=1,ncols=1,figsize=(7,6))
     
     n = 1000
-
+    
     poisson_(ax,10,n)
     poisson_(ax,20,n)
     poisson_(ax,50,n)
