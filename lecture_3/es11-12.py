@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from scipy.stats import poisson
 import numpy as np
-from es import gaussian
+# from es import gaussian
 
 
 '''Write a Python program to draw a Poisson distribution 
