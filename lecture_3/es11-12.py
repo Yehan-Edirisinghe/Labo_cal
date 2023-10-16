@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from scipy.stats import poisson,norm
+import sys
 import numpy as np
 
 
@@ -10,7 +11,7 @@ def poisson_(ax,mu,n):
 
     m,v,s,k = poisson.stats(mu,moments='mvsk')
     x = np.arange(0,n,.1)
-    lab = "mean:"+str(round(m,2))+ "  skew: "+str(round(s,2)) + " Kurt" +str(round(k,2))
+    lab = "mean:"+str(m)+ "  skew: "+str(s) + " Kurt" +str(k)
     ax.plot(x,poisson.pmf(x,mu),label = lab)
 
 
