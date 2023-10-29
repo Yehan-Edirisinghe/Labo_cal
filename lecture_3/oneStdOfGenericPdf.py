@@ -1,31 +1,51 @@
 import numpy as np
 from scipy.stats import poisson,norm
-
+import matplotlib.pyplot as plt
 from scipy.integrate import quad
+from math import pow,sin
 
-def genericF(mean):
-    f = lambda x: poisson(mu=mean,k=x)
+def genericFunc(mean):
+
+    f  = lambda x: norm.pdf(mean,x)
+    f2 = lambda x: pow(x,3)+pow(x,2)-x
+    f3 = lambda x: sin(x)/x
+
+    return f3
+
 
 def oneStd_x(mean,f):
 
     a=mean
     b=mean
 
-    area=0
-    area2 = 0
+    area = quad(func=f,a=-100,b=100)
+    print(area[0])
+    area1   =0
+    area2   =0
 
-    while area<.32:
-        area = quad(func=f,a=mean,b=a)[0]
-        a+=.001
-    while area2<.32:
-        area2 = quad(func=f,a=b,b=mean)[0]
-        b-=.001
+    while area1 <= .34:
+        area1 = quad(func=f,a=mean,b=b)[0]
+        b+=.01
+
+    while area2 <= .34:
+        area2 = quad(func=f,a=a,b=mean)[0]
+        a-=.01
+
     return a,b
 
-if __name__=='__main__':
+if __name__== '__main__':
     
-    x = np.linspace(norm.ppf(0.01),norm.ppf(0.99), 100)
-    f = lambda x : norm.pdf(x,2)
-    norm_fix = norm (0, 1)
-    print(norm_fix)
-    print(oneStd_x(mean=0,f=norm_fix.pdf))
+    fig,ax = plt.subplots(1,1)
+    m = 3
+
+    f = genericFunc(m)
+
+    x = np.linspace(1,20,100)
+    y = [f(i) for i in x]
+
+    # print(oneStd_x(m,f))
+
+    plt.axhline(0, color='gray')
+    plt.axvline(0, color='gray')
+    ax.plot(x,y)
+    plt.show()
