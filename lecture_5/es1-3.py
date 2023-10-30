@@ -7,7 +7,6 @@ class Fraction:
     
     def __init__(self,num,den):
         
-        
         if den == 0:
             print("Can't have 0 as denominator")
             exit()
