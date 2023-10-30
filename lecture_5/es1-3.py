@@ -7,9 +7,12 @@ class Fraction:
     
     def __init__(self,num,den):
         
+        
         if den == 0:
-            print("Can't have 0 as denominator")
-            exit()
+        	raise ValueError("Can't have 0 as denominator")
+        if type(num) != int or type(den) != int:
+        	raise TypeError("Numbers must be integers")
+		
         com_Div = gcd(num,den)
         self.num = num // com_Div
         self.den = den // com_Div
@@ -41,25 +44,32 @@ class Fraction:
         return Fraction(n,d)
     
     def print(self):        
-        return self.num/self.den
-    
+        print(f"{self.num}/{self.den}")
+
 def Test():
 
     first = Fraction(2,5)
     second = Fraction(1,2)
 
-    print(f"Prima frazione:  {first.print()}")
-    print(f"Seconda frazione:  {second.print()}\n")
-
+    print("Prima frazione:")
+    first.print()
+    print("Seconda frazione:")
+    second.print()
+    
     somma   = first+second
     sott    = first-second
-    prod    = first+second
+    prod    = first*second
     div     = first/second
-
-    print(f"Somma:\t\t{somma.num}\t\t{somma.den}")
-    print(f"Sottrazione:\t\t{sott.num}\t\t{sott.den}")
-    print(f"Prodotto:\t\t{prod.num}\t{prod.den}")
-    print(f"Divisione:\t\t{div.num}\t{div.den}")
+	
+    print("Somma:")
+    somma.print()
+    print("Sottrazione:")
+    sott.print()
+    print("Moltiplicazione:")
+    prod.print()
+    print("Divisione:")
+    div.print()
+    
 
 
 
