@@ -26,30 +26,28 @@ def avarage(l):
     return sum/len(l)
 
 
-def randGauss(M,N):
+def randGauss(M):
 
+    means=[]
     
-    gaussian = []
-
-    for i in range(M):
-        t = uniformDistribution(N)
-        m = avarage(t)
-        gaussian.append(norm.pdf(m))
-
-    return gaussian
-
+    for i in range(N):
+    
+    	t = uniformDistribution(M)
+    	means.append(avarage(t))
+    
+    return means
 
 
 
 if __name__ == '__main__':
 
     N = 1000
-    M = 10000
 
-    # print(uniformDistribution(N))
+    #sample = (uniformDistribution(N))
 
-    sample = randGauss(N,M)
-
+    sample = randGauss(N)
+   
+    
     fig,ax = plt.subplots(1,1)
-    ax.hist(sample,color='salmon',bins=20)
+    ax.hist(sample,color='salmon')
     plt.show()
