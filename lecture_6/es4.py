@@ -41,6 +41,9 @@ def maximum(func,xmin,xmax,precision):
         return maximum(func,xmin,x2,precision)
 
 
-print("Minimum of g is:",minimum(g,-10,0,0.000001))
 
-print("maximum of f is:",maximum(f,-3,3,0.0000001))
+if __name__ == '__main__':
+
+    print("Minimum of g is:",minimum(g,-10,0,0.000001))
+
+    print("maximum of f is:",maximum(f,-3,3,0.0000001))

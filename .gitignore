@@ -5,3 +5,5 @@ Mandelbrot/immagini/Mandelbrot_image.pmg
 .vscode/arduino.json
 .vscode/c_cpp_properties.json
 .gitignore
+.vscode/settings.json
+.gitignore

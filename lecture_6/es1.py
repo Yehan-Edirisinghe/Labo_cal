@@ -32,17 +32,17 @@ def rec_zero(func,xMin,xMax,prec):
     else:
         return rec_zero(func,xMin,avg,prec)
     
+if __name__ == '__main__':
 
+    p = .000000000000001
 
-p = .000000000000001
+    a = time.time()
+    print(zero(cos,100,0,prec=p))
+    b = time.time()
 
-a = time.time()
-print(zero(cos,100,0,prec=p))
-b = time.time()
+    c = time.time()
+    print(rec_zero(cos,100,0,prec=p))
+    d = time.time()
 
-c = time.time()
-print(rec_zero(cos,100,0,prec=p))
-d = time.time()
-
-print("Time for normal method",(b-a))
-print("Time for recursive method",(d-c))
+    print("Time for normal method",(b-a))
+    print("Time for recursive method",(d-c))
