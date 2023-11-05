@@ -10,15 +10,18 @@ def g(x):
 
 def minimum(func,xmin,xmax,precision):
 
-    r = (-1+sqrt(5))*xmax/2 + xmin
-
+    r = (-1+sqrt(5))
+    
     if(sqrt((xmax-xmin)*(xmax-xmin)) < precision):
         return xmin
     
-    if(func(r) > func(xmax-r)):
-        return minimum(func,xmin,r,precision)
+    x2 = xmin +     r*(xmax-xmin)
+    x3 = xmin + (1-r)*(xmax-xmin)
+    
+    if(func(x3) < func(x2)):
+        return minimum(func,xmin,x3,precision)
     else:
-        return minimum(func,(xmax-r),xmax,precision)
+        return minimum(func,x2,xmax,precision)
     
 
 print(minimum(g,-10,10,0.01))
