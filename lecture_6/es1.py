@@ -14,7 +14,7 @@ def zero(func, xMin, xMax, prec):
             xMin = avg
         else: 
             xMax = avg
-            
+    
     return avg
 
 def rec_zero(func,xMin,xMax,prec):
@@ -24,7 +24,8 @@ def rec_zero(func,xMin,xMax,prec):
     
     avg = (xMin+xMax)/2
 
-    if(sqrt((xMax-xMin)*(xMax-xMin)) < prec or func(avg) == 0 ): return avg
+    if(sqrt((xMax-xMin)*(xMax-xMin)) < prec or func(avg) == 0 ): 
+        return avg
 
     if(func(avg)*func(xMin) > 0):
         return rec_zero(func,avg,xMax,prec)
@@ -36,11 +37,11 @@ def rec_zero(func,xMin,xMax,prec):
 p = .000000000000001
 
 a = time.time()
-print(zero(cos,6,0,prec=p))
+print(zero(cos,100,0,prec=p))
 b = time.time()
 
 c = time.time()
-print(rec_zero(cos,6,0,prec=p))
+print(rec_zero(cos,100,0,prec=p))
 d = time.time()
 
 print("Time for normal method",(b-a))
