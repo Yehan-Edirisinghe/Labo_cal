@@ -32,8 +32,8 @@ def maximum(func,xmin,xmax,precision):
     if(d < precision):
         return xmin
     
-    x2 = xmin +     r*d
-    x3 = xmin + (1-r)*d
+    x2 = xmin +     r* d
+    x3 = xmin + (1-r)* d
     
     if(func(x3) < func(x2)):
         return maximum(func,x3,xmax,precision)
