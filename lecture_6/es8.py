@@ -4,11 +4,11 @@ from math import sqrt
 from functions import f,f1
 import random as rnd
 
-
-#sqrt((f(min[0]+r,min[1]+r)-f(min[0],min[1]))**2)
-
 def graph(f,x1,x2,y1,y2):
-    
+
+    '''plots the graph of a given function'''
+    #boundaries must be increasing in size
+
     fig = plt.figure()
     ax = fig.add_subplot(111,projection='3d')
 
@@ -53,7 +53,7 @@ def min(f,x1,x2,y1,y2,prec = 0.001):
 if __name__ == '__main__':
 
     center = (0,0)
-    r = 5
+    r = 3
 
     x1 = center[0] - r
     x2 = center[0] + r

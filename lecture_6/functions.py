@@ -1,5 +1,4 @@
 import numpy as np
-from math import sin
 
 def fun_1(x, y):
     return x**2 / np.sqrt(x**2 + y**2)
@@ -19,7 +18,7 @@ def torus(x,y):
     return np.sqrt(r**2-(R-np.sqrt((x**2)+(y**2)))**2)
 
 def f(x,y):
-    return np.sin(x+y)*pow(2.71,-x**2)
+    return x*(x-2)*((x**2)-7)
 
 def f1(x,y):
     return -pow(2.71,-((x)**4+y**4))+pow(2.71,-x**2-y**2)
