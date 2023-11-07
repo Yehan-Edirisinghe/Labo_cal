@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
 
+def f(x,y):
+    return -np.sqrt(1-(x**2)-(y**2))
+
 def fun_1(x, y):
     return x**2 / np.sqrt(x**2 + y**2)
 
@@ -19,8 +22,6 @@ def torus(x,y):
     R = 4
     return np.sqrt(r**2-(R-np.sqrt((x**2)+(y**2)))**2)
 
-def f(x,y):
-    return x**2*y**2
 
 def graph(f,x1,x2,y1,y2):
     
@@ -32,43 +33,36 @@ def graph(f,x1,x2,y1,y2):
     
     X,Y = np.meshgrid(x,y)
     Z = f(X,Y)
-    Z2 = -f(X,Y)
 
     ax.plot_surface(X,Y,Z)
     # ax.plot_surface(X,Y,Z2)
 
     return ax
 
-def min(f,x1,x2,y1,y2,m=None,prec = 0.001):
+def min(f,x1,x2,y1,y2,prec = 0.001):
     
-    r = (sqrt(5)-1)/2
-    r = r*(x2-x1)
+    r = 1/5
+    r = r*sqrt((x2-x1)**2)
 
-    if m == None:
-        m = ((x1+x2)/2,(y1+y2)/2)
-    
-    p1 = (m[0]+r,m[1])
-    p2 = (m[0]-r,m[1])
-    p3 = (m[0],m[1]+r)
-    p4 = (m[0],m[1]-r)
 
-    p = {p1,p2,p3,p4}
-    min = (p1[0],p1[1])
+    m = ((x1+x2)/2,(y1+y2)/2)
+    min = (m[0]+r,m[1]+r)
 
-    if sqrt(f(m[0],m[1])-f(min[0],min[1]))**2 < prec:
-        return m[0],m[1]
-    
-    
-    for i in p:
+    while sqrt((f(m[0],m[1])-f(min[0],min[1]))**2) > prec:
 
-        if f(i[0],i[1]) < f(min[0],min[1]):
-            min = i[0],i[1]
-    a = 1
-    b = 1
-    c = 1
-    d = 1
+        p = {    (m[0]+r,m[1])
+                ,(m[0]-r,m[1])
+                ,(m[0],m[1]+r)
+                ,(m[0],m[1]-r)
+            }
+        
+        for i in p:
 
-    return min(f,a,b,c,m=(2,3))
+            if f(i[0],i[1]) < f(min[0],min[1]):
+                min = i[0],i[1]
+        m = min
+
+    return min
 
     #calcolo distanza tra punto minimo e punto medio
     #se sotto precisione ho trovato il valore
@@ -76,7 +70,11 @@ def min(f,x1,x2,y1,y2,m=None,prec = 0.001):
 
 
 if __name__ == '__main__':
+    k = 1
+    ax = graph(f,-k,k,-k,k)
+    m = min(f,-k,k,-k,k)
 
-    ax = graph(fun_1,-6,6,-6,6)
-    print(min(fun_1,-6,6,-6,6))
+    ax.scatter(m[0],m[1],f(m[0],m[1]), color='red', marker = '*')
+    # ax.scatter(0,0,f(0,0), color='green', marker = '*')
+
     plt.show()
