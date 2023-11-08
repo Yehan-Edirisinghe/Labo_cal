@@ -6,22 +6,8 @@ from math import sqrt,cos
 xMax = -1
 xMin = 1
 
-def anim(i,func,ax):
-
-    prec = .001
-
-    while(sqrt((xMax-xMin)*(xMax-xMin)) > prec):
-
-        avg = (xMax + xMin)/2
-
-        ax.clear()
-        ax.plot(avg,func(avg))
-        
-        if(func(avg)*func(xMin) > 0):
-            xMin = avg
-        else: 
-            xMax = avg
-    return avg
+def anim(frame):
+    return 1
 
 def graph(func):
     
