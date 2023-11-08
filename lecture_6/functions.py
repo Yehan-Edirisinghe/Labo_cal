@@ -21,4 +21,7 @@ def f(x,y):
     return x*(x-2)*((x**2)-7)
 
 def f1(x,y):
-    return -pow(2.71,-((x)**4+y**4))+pow(2.71,-x**2-y**2)
+    return -np.power(2.71,-((x)**4+y**4))+pow(2.71,-x**2-y**2)
+
+def f2(x,y):
+    return -pow(2.71,-x**2-y**2)

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from math import sqrt
-from functions import f,f1
+from math import sqrt,pi,cos,sin
+from functions import f,f1,f2
 import random as rnd
 
 def graph(f,x1,x2,y1,y2):
@@ -22,10 +22,20 @@ def graph(f,x1,x2,y1,y2):
 
     return ax
 
+def points(m,k,r):
+
+    p = []
+
+    for i in range(k):
+
+        p.append((m[0]+r*cos((2*pi*i)/k),m[1]+r*sin((2*pi*i)/k)))
+    
+    return p
+
 def min(f,x1,x2,y1,y2,prec = 0.001):
     
     
-    r = 1/2*sqrt((x2-x1)**2)
+    r = 1/2*np.sqrt((x2-x1)**2)
 
 
     m = ((x1+x2)/2,(y1+y2)/2)
@@ -33,36 +43,34 @@ def min(f,x1,x2,y1,y2,prec = 0.001):
 
     while r > prec:
 
-        p = {    (m[0]+r,m[1])
-                ,(m[0]-r,m[1])
-                ,(m[0],m[1]+r)
-                ,(m[0],m[1]-r)
-            }
-        
+        p = points(m,10,r)
+                
         for i in p:
 
-            if f(i[0],i[1]) < f(min[0],min[1]):
+            if f(i[0],i[1]) < f(min[0],min[1]) and i[0]<x2 and i[0]>x1 and i[1]<y2 and i[1]>y1:
                 min = i[0],i[1]
+        
         m = min
-        r = r/2 + rnd.random()*r
+        r = (1/2 + rnd.random())*r
 
     return min
-
 
 
 if __name__ == '__main__':
 
     center = (0,0)
-    r = 3
+    r = 2
 
     x1 = center[0] - r
     x2 = center[0] + r
     y1 = center[1] - r
     y2 = center[1] + r
 
-    func = f
+    func = f1
 
     ax = graph(func,x1,x2,y1,y2)
+
+    
     m = min(func,x1,x2,y1,y2)
 
     ax.scatter(m[0],m[1],func(m[0],m[1]), color='red', marker = '*')
