@@ -18,7 +18,7 @@ def graph(f,x1,x2,y1,y2):
     X,Y = np.meshgrid(x,y)
     Z = f(X,Y)
 
-    ax.plot_surface(X,Y,Z, alpha=.2)
+    ax.plot_surface(X,Y,Z, alpha=.4)
 
     return ax
 
@@ -36,10 +36,11 @@ def min(f,x1,x2,y1,y2,prec = 0.001):
     
     buffer = []
 
-    r = .5*abs(x2-x1)
+    r = abs(x2-x1)
 
 
-    m = ((x1+x2)/2,(y1+y2)/2)
+    # m = ((x1+x2)/2,(y1+y2)/2)
+    m = (x1,y1)
     min = (m[0]+r,m[1]+r)
 
     while r > prec:
@@ -56,7 +57,7 @@ def min(f,x1,x2,y1,y2,prec = 0.001):
         buffer.append(min)
         
         m = min
-        r *= (0.35+rnd.random())
+        r *= (0.5+rnd.random())
 
     return min,buffer
 
@@ -71,14 +72,14 @@ if __name__ == '__main__':
     y1 = center[1] - r
     y2 = center[1] + r
 
-    func = f.f2
+    func = f.f1
 
     ax = graph(func,x1,x2,y1,y2)
 
     
     m,buffer = min(func,x1,x2,y1,y2)
 
-
+    print(len(buffer))
     ax.scatter(m[0],m[1],func(m[0],m[1]), color='red', marker = '*')
     
     for i in buffer:
