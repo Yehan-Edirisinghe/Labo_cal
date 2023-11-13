@@ -3,19 +3,20 @@ from math import log
 import matplotlib.pyplot as plt
 from random import random
 
-
 def f(t,tau):
 	return np.exp(-t/tau)/tau
 
 def F(t,tau):
 	return 1-np.exp(-(t/tau))
-	
+
 def F_inv(y,tau):
 	return -tau*np.log(1-y)
-	
-def expo(tau):
-	
+
+def exp(tau):
 	return F_inv(random(),tau)
+
+
+
 
 
 if __name__ == '__main__':
@@ -24,7 +25,7 @@ if __name__ == '__main__':
 	n = 10000
 	fig,ax = plt.subplots(1,1)
 	
-	x = [expo(tau) for i in range(n)]
+	x = [exp(tau) for i in range(n)]
 	
-	ax.hist(x,bins=20)
+	ax.hist(x,bins=int(len(x)/50))
 	plt.show()
