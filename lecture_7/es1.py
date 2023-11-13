@@ -24,12 +24,7 @@ if __name__ == '__main__':
 	n = 10000
 	fig,ax = plt.subplots(1,1)
 	
-	#t = [i*random() for i in range(1,10)
-	#f_x = [f(x,tau) for x in t]
-	#y = [F(i,tau) for i in t]
-	
 	x = [expo(tau) for i in range(n)]
-	
 	
 	ax.hist(x,bins=20)
 	plt.show()
