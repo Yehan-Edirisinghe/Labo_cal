@@ -21,7 +21,7 @@ def exp(tau):
 
 if __name__ == '__main__':
 	
-	tau = 5
+	tau = 10
 	n = 10000
 	fig,ax = plt.subplots(1,1)
 	
