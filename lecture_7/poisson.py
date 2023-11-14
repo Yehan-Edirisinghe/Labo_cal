@@ -76,7 +76,6 @@ if __name__ == '__main__':
 	Nax = plt.axes([0.15, 0.25, 0.7, 0.03])
 	tax = plt.axes([0.15, 0.15, 0.7, 0.03])
 	
-	x = poisson(300)
 	
 	# print("Average\t",np.average(x))
 	# print("Skewness\t",skewness(x))
@@ -91,6 +90,7 @@ if __name__ == '__main__':
 	TSlider.on_changed(update)
 
 
-	ax.hist(x,bins=int(len(x)/20),label= f'Kurtosis = {kurtosis(x)}\nskewness = {skewness(x)}')
+	x = poisson(MSlider.val,TSlider.val,NSlider.val)
+	ax.hist(x,bins=int(len(x)/20), label= f'Kurtosis = {kurtosis(x)}\nskewness = {skewness(x)}')
 	ax.legend()
 	plt.show()
