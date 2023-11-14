@@ -25,7 +25,7 @@ def events(tau,tMax):
 	
 	while(t < tMax):
 		counter += 1
-		t += exp(tau)
+		t += F_inv(random(),tau)
 
 	return counter
 
