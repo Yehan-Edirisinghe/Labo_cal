@@ -1,14 +1,17 @@
 '''Use the stats class developed during the previous Lectures to compare the standard deviation of 
     the mean calculated for each individual toy with the standard deviation of the sample of means.'''
 
+'''Use two scatter plots to compare the evolution of the standard deviation of the mean calculated for each individual toy 
+    with the standard deviation of the sample of means as the number of events generated in a single toy experiment varies.'''
+
 import stats 
 from stats import graph
 import matplotlib.pyplot as plt
 
-N = 3000
-toys = []
-toy_stds = []
-sample_std = []
+N = 100
+toys = []       #medie di ogni toy experiment
+toy_stds = []   #deviazioni standard dei toy exp
+sample_std = [] #deviazione standard delle medie
 
 for i in range(N):
 

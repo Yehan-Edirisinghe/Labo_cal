@@ -1,0 +1,57 @@
+import numpy as np
+from math import sin,pi
+import matplotlib.pyplot as plt
+
+def hit_or_miss(func,point:tuple):
+
+    if point[1] <= func(point[0]):
+        return True
+    else: 
+        return False
+
+
+def area(func,xmin,xMax,yMax,N):
+
+    A = abs(xmin-xMax)*yMax
+    p,err,counter = 0,0,0
+
+    areas = []
+    errs = []
+
+    for i in range(N):
+
+        x = np.random.uniform(xmin,xMax)
+        y = np.random.uniform(0,yMax)
+
+        if hit_or_miss(func,(x,y)):
+            
+            counter +=1
+            p = counter/N
+            areas.append(p*A)
+            err = np.sqrt((A*A*p*(1-p))/N)
+            errs.append(err)
+        else:
+            areas.append(p*A)
+            errs.append(err)
+
+    return areas,errs
+
+
+
+
+if __name__=='__main__':
+
+    N = 1000
+    func = lambda x: sin(x)+1
+    probs,errs = area(func,0,pi,1,N)
+
+    fig,ax = plt.subplots(1,2)
+
+    x = range(len(probs))
+
+    ax[0].scatter(x,probs)
+    ax[1].scatter(x,errs)
+
+    # ax[1].scatter(x,np.log(errs))
+    
+    plt.show()

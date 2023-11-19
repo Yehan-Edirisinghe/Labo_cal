@@ -53,6 +53,7 @@ class toy_Gauss:
         sum = 0
 
         for i in range(len(self.sample)):
+
             sum += (self.sample[i]-m)**2
 
         return sum/len(self.sample)
@@ -139,6 +140,7 @@ class toy_Poiss:
 
 def mean(sample):
     return np.average(sample)
+
 def variance(sample):
     m = np.average(sample)
     sum = 0
@@ -147,6 +149,7 @@ def variance(sample):
         sum += (sample[i]-m)**2
 
     return sum/len(sample)
+
 def stdDeviation(sample):
     return np.sqrt(variance(sample))
 
