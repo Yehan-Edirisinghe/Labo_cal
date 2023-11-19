@@ -3,9 +3,26 @@
 
 import stats 
 from stats import graph
+import matplotlib.pyplot as plt
 
-N = 100
-toys = [stats.toy_Gauss.toy(N_max=100) for i in range(N)]
+N = 3000
+toys = []
+toy_stds = []
+sample_std = []
 
-a = graph(toys)
-a.show()
+for i in range(N):
+
+    toy,stdDev = stats.toy_Gauss.toy(N_max=100)
+
+    toys.append(toy)
+    toy_stds.append(stdDev)
+    sample_std.append(stats.stdDeviation(toys))
+
+
+fig,ax = plt.subplots(2,1)
+
+x = range(N)
+ax[0].scatter(x,toy_stds)
+ax[1].scatter(x,sample_std)
+
+plt.show()

@@ -3,20 +3,29 @@ import matplotlib.pyplot as plt
 from random import random
 import matplotlib.pyplot as plt
 
-class graph():
+class graph:
 
-    def __init__(self,sample):
+    def __init__(self,sample,bins = None ):
         
         self.sample = sample
         fig,ax = plt.subplots(1,1)
 
-        Nbins = int(len(self.sample)/10)
-        
-        ax.hist(self.sample,bins=Nbins)
+        self.fig=fig
+        self.ax = ax
 
+        if bins != None:
+        
+            ax.hist(self.sample,bins=bins)
+        else:
+            Nbins = int(len(self.sample)/10)
+            ax.hist(self.sample,bins=Nbins)
+
+        
+    def subplots(self):
+        return self.ax
+    
     def show(self):
-
-        
+       
         plt.show()
    
 class toy_Gauss:
@@ -26,14 +35,15 @@ class toy_Gauss:
         self.sample = self.Gaussian_Distribution(N_max,N_toys)
 
     def toy(N_max):
-        
+        '''average of one uniform random distribution'''
+
         list = [random() for i in range(N_max)]
 
-        return np.average(list)
+        return np.average(list),stdDeviation(list)
 
     def Gaussian_Distribution(self,N_max,N_toys):
 
-        toys = [self.toy(N_max) for i in range(N_toys)]
+        toys = [self.toy(N_max)[0] for i in range(N_toys)]
 
         return toys 
     
@@ -49,7 +59,7 @@ class toy_Gauss:
     
     def standard_deviation(self):
 
-        return np.sqrt(self.variance)
+        return np.sqrt(self.variance())
     
     def stats(self):
 
@@ -127,7 +137,18 @@ class toy_Poiss:
 
         return m,v,s,k
 
+def mean(sample):
+    return np.average(sample)
+def variance(sample):
+    m = np.average(sample)
+    sum = 0
 
+    for i in range(len(sample)):
+        sum += (sample[i]-m)**2
+
+    return sum/len(sample)
+def stdDeviation(sample):
+    return np.sqrt(variance(sample))
 
 if __name__== '__main__':
     
