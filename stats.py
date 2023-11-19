@@ -18,57 +18,12 @@ class graph():
 
         
         plt.show()
-
-class Normal_stats:
-
-    def __init__(self,sample):
-
-        self.sample = sample
-
-    def mean(self,sample = None):
-        
-        if sample != None:
-            return np.average(sample)
-        
-        return np.average(self.sample)
-    
-    def variance(self):
-
-        m = self.mean()
-        sum = 0
-
-        for i in range(len(self.sample)):
-            sum += (self.sample[i]-m)**2
-
-        return sum/len(self.sample)
-    
-    def standard_deviation(self):
-
-        return np.sqrt(self.variance)
-    
-    def skewness(self):
-
-        return 0
-    
-    def kurtosis(self):
-        
-        return 0
-    
-    def stats(self):
-
-        m = np.average(self.sample)
-        v = self.variance()
-        s = self.skewness()
-        k = self.kurtosis()
-
-        return m,v,s,k
-    
+   
 class toy_Gauss:
 
     def __init__(self,N_max,N_toys) -> None:
         
         self.sample = self.Gaussian_Distribution(N_max,N_toys)
-
 
     def toy(self,N_max):
         
@@ -80,8 +35,30 @@ class toy_Gauss:
 
         toys = [self.toy(N_max) for i in range(N_toys)]
 
-        return toys
+        return toys 
     
+    def variance(self):
+
+        m = np.average(self.sample)
+        sum = 0
+
+        for i in range(len(self.sample)):
+            sum += (self.sample[i]-m)**2
+
+        return sum/len(self.sample)
+    
+    def standard_deviation(self):
+
+        return np.sqrt(self.variance)
+    
+    def stats(self):
+
+        m = np.average(self.sample)
+        v = self.variance()
+        s = 0
+        k = 0
+
+        return m,v,s,k
 
 class toy_Exp:
 
@@ -91,16 +68,26 @@ class toy_Exp:
         self.t_Max = t_Max
         self.N = N
 
+        self.sample = self.exponential()
+
     def single_event(self):
         '''return time interval between two random events, that behave like an exponential'''
 
         return -self.t_o*np.log(1-random())
 
-    def exponential(self,N):
+    def exponential(self):
         '''returns a toy exponential sample'''
 
-        return [self.single_event() for i in range(N)]
+        return [self.single_event() for i in range(self.N)]
+    
+    def stats(self):
+        
+        m = np.average(self.sample)
+        v = '?'
+        s = '?'
+        k = '?'
 
+        return m,v,s,k
 
 class toy_Poiss:
 
@@ -111,6 +98,8 @@ class toy_Poiss:
         self.N = N
         
         self.exp = toy_Exp(self.t_o,self.t_Max)
+
+        self.sample = self.Poisson_Distr()
 
     
     def singleEventCounter(self):
@@ -129,11 +118,14 @@ class toy_Poiss:
 
         return [self.singleEventCounter() for i in range(self.N)]
     
+    def stats(self):
 
+        m = np.average(self.sample)
+        v = m
+        s = 1/np.sqrt(m)
+        k = 1/m
 
-    
-        
-        
+        return m,v,s,k
 
 
 
@@ -146,27 +138,30 @@ if __name__== '__main__':
     # M = 1000
     # toy = toy_Gauss(N,M)
     # sample = toy.sample
-    # stats = Normal_stats(sample)
+    # stats = toy.stats()
+    # print(stats)
 
     #EXPONENTIAL TEST
-
-    # toy = toy_Exp(5,100)
-    # sample = toy.exponential(1000)
-
-    # POISSON TEST
 
     # to = 1
     # tmax = 100
     # N = 1000
-    # toy = toy_Poiss(to,tmax,N)
-    # sample = toy.Poisson_Distr()
+    # toy = toy_Exp(to,tmax,N)
+    # sample = toy.exponential()
+    # stats = toy.stats()
+    # print(stats)
 
+    # POISSON TEST
+
+    to = 1
+    tmax = 100
+    N = 1000
+    toy = toy_Poiss(to,tmax,N)
+    sample = toy.Poisson_Distr()
+    stats = toy.stats()
+    print(stats)
 
 
 
     grph = graph(sample)
     grph.show()
-    # m,v,s,k = stats.stats()
-
-    
-
