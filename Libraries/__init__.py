@@ -1,0 +1,1 @@
+print('\nStatistical Library by Edi Initialised\n')
