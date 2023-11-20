@@ -12,8 +12,8 @@ def data(func,xmin,xmax,ymax,N):
     errs    = []
     points  = []
 
-    for i in [(lambda x: 2**x )(x) for x in range(N)]:
-    # for i in range(1,N):
+    # for i in [(lambda x: 2**x )(x) for x in range(N)]:
+    for i in range(1,N):
 
 
         area,err = (es5.HoM_Area(func,xmin,xmax,ymax,i))
@@ -28,7 +28,7 @@ def data(func,xmin,xmax,ymax,N):
 if __name__== '__main__':
 
 
-    N = 12
+    N = 120
     xmin,xmax,ymax = 0, 2*np.pi, 2
 
     fig,ax = plt.subplots(1,3)
@@ -37,8 +37,12 @@ if __name__== '__main__':
 
     areas,errs,x = data(func,xmin,xmax,ymax,N)
 
-    A,B = linear(x,np.log(errs))
+    A,B = linear(np.log(x),errs)
 
+    xl = x
+    yl = A+B*xl
+
+    print(A,B)
     # f = file('sample.txt').write(areas)
 
     ax[0].scatter(x,areas)
@@ -51,15 +55,15 @@ if __name__== '__main__':
     ax[1].set_xlabel('N punti')
     ax[1].set_ylabel('errore')
 
-    ax[2].scatter(x,np.log(errs))
+    ax[2].scatter(np.log(x),errs)
     ax[2].set_title('Log Err')
     ax[2].set_xlabel('N punti')
     ax[2].set_ylabel('errore')
 
-    ax[2].plot()
+    ax[2].plot(xl,yl)
     # ax[2].set_xscale('log')    
 
     manager = plt.get_current_fig_manager()
-    manager.full_screen_toggle()
+    # manager.full_screen_toggle()
 
     plt.show()

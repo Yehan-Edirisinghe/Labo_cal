@@ -1,5 +1,5 @@
 import numpy as np
-import files as f
+
 
 def linear(x,y):
 
@@ -7,9 +7,11 @@ def linear(x,y):
     N = len(x)
 
     xi = np.sum(x)
-    xi2 = np.sum(x**2)
+    
+    xi2 = np.sum([i**2 for i in x])
     yi = np.sum(y)
-    xyi = np.sum(x*y)
+    xy = x*y
+    xyi = np.sum(xy)
 
     A = (yi*xi2-xi*xyi)/(N*xi2-xi**2)
 
@@ -20,8 +22,8 @@ def linear(x,y):
 
 if __name__ == '__main__':
 
-    x = np.linspace(0,3,100)
-    
+    x = np.linspace(0,5,100)
+
     y = 0.3*x+1
 
     A,B = linear(x,y)
