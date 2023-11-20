@@ -15,7 +15,7 @@ sample_std = [] #deviazione standard delle medie
 
 for i in range(N):
 
-    toy,stdDev = stats.toy_Gauss.toy(N_max=1000)
+    toy,stdDev = stats.toy_Gauss.toy(N=1000)
 
     toys.append(toy)
     toy_stds.append(stdDev)

@@ -22,7 +22,7 @@ def HoM_Area(func,xmin,xMax,yMax,N):
 
         if hit_or_miss(func,(x,y)):
             
-            counter +=1
+            counter += 1
         
     p = counter/N
     A = abs(xmin-xMax)*yMax

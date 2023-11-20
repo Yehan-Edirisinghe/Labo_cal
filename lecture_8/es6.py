@@ -1,17 +1,20 @@
 import numpy as np
-from math import sin,pi
 import matplotlib.pyplot as plt
 import es5
+import Libraries.files as files
 
-xmin,xmax,ymax = 0,2*pi,2
+xmin,xmax,ymax = 0,2*np.pi,2
 
 def data(N,func):
 
-    areas = []
-    errs  = []
-    points= []
+    areas   = []
+    errs    = []
+    points  = []
 
-    for i in [(lambda x: 2**x )(x)for x in range(N)]:
+    # range = [(lambda x: 2**x )(x)for x in range(N)]
+
+    for i in range(1,N,10):
+
 
         area,err = (es5.HoM_Area(func,xmin,xmax,ymax,i))
 
@@ -25,27 +28,33 @@ def data(N,func):
 if __name__== '__main__':
 
 
-    N = 15
+    N = 1200
 
     fig,ax = plt.subplots(1,3)
 
-    func = lambda x: sin(x)+1
+    func = lambda x: np.cos(x)+1
 
-    areas,errs,points = data(N,func)
+    areas,errs,x = data(N,func)
 
-    x = points
-
+    f = files('sample.txt').write(areas)
 
     ax[0].scatter(x,areas)
+    ax[0].set_title('Areas')
     ax[0].set_xlabel('N punti')
+    ax[0].set_ylabel('Area')
 
     ax[1].scatter(x,errs)
+    ax[1].set_title('Errors')
     ax[1].set_xlabel('N punti')
-    
+    ax[1].set_ylabel('errore')
 
     ax[2].scatter(x,errs)
-    ax[2].set_yscale('log')    
-    ax[0].set_xlabel('N punti')
+    ax[2].set_title('Log Err')
+    ax[2].set_xlabel('N punti')
+    ax[2].set_ylabel('errore')
 
+    ax[2].set_xscale('log')    
 
+    manager = plt.get_current_fig_manager()
+    manager.full_screen_toggle()
     plt.show()
