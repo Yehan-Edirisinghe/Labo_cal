@@ -1,7 +1,11 @@
+import sys
+sys.path.insert(0,'/home/peppo/Documents/Labo_cal/')
+
+from Libraries.files import file
+
 import numpy as np
 import matplotlib.pyplot as plt
 import es5
-import Libraries.files as files
 
 xmin,xmax,ymax = 0,2*np.pi,2
 
@@ -13,7 +17,7 @@ def data(N,func):
 
     # range = [(lambda x: 2**x )(x)for x in range(N)]
 
-    for i in range(1,N,10):
+    for i in range(1,N):
 
 
         area,err = (es5.HoM_Area(func,xmin,xmax,ymax,i))
@@ -28,7 +32,7 @@ def data(N,func):
 if __name__== '__main__':
 
 
-    N = 1200
+    N = 120
 
     fig,ax = plt.subplots(1,3)
 
@@ -36,7 +40,7 @@ if __name__== '__main__':
 
     areas,errs,x = data(N,func)
 
-    f = files('sample.txt').write(areas)
+    f = file('sample.txt').write(areas)
 
     ax[0].scatter(x,areas)
     ax[0].set_title('Areas')

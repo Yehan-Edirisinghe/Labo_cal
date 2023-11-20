@@ -139,6 +139,7 @@ class toy_Poiss:
 
 def mean(sample):
     return np.average(sample)
+
 def variance(sample):
     m = np.average(sample)
     sum = 0
@@ -147,6 +148,7 @@ def variance(sample):
         sum += (sample[i]-m)**2
 
     return sum/len(sample)
+
 def stdDeviation(sample):
     return np.sqrt(variance(sample))
 
