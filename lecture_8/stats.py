@@ -34,10 +34,10 @@ class toy_Gauss:
         
         self.sample = self.Gaussian_Distribution(N_max,N_toys)
 
-    def toy(N_max):
+    def toy(N):
         '''average of one uniform random distribution'''
 
-        list = [random() for i in range(N_max)]
+        list = [random() for i in range(N)]
 
         return np.average(list),stdDeviation(list)
 
@@ -184,7 +184,6 @@ if __name__== '__main__':
     sample = toy.Poisson_Distr()
     stats = toy.stats()
     print(stats)
-
 
 
     grph = graph(sample)

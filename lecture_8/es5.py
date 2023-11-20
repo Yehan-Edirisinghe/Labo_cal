@@ -12,7 +12,7 @@ def hit_or_miss(func,point:tuple):
         return False
 
 
-def area(func,xmin,xMax,yMax,N):
+def HoM_Area(func,xmin,xMax,yMax,N):
 
     counter = 0
     for i in range(N):
@@ -23,6 +23,7 @@ def area(func,xmin,xMax,yMax,N):
         if hit_or_miss(func,(x,y)):
             
             counter +=1
+        
     p = counter/N
     A = abs(xmin-xMax)*yMax
 
@@ -31,11 +32,12 @@ def area(func,xmin,xMax,yMax,N):
     return p*A,err
 
 
-
-
 if __name__=='__main__':
 
-    N = 100
-    I = area(sin,0,pi,1,N)
+    N = 10000
+    
+    func = lambda x: sin(x)+1
+
+    I = HoM_Area(func,0,pi,2,N)
 
     print(I)

@@ -8,14 +8,14 @@ import stats
 from stats import graph
 import matplotlib.pyplot as plt
 
-N = 100
+N = 1000
 toys = []       #medie di ogni toy experiment
 toy_stds = []   #deviazioni standard dei toy exp
 sample_std = [] #deviazione standard delle medie
 
 for i in range(N):
 
-    toy,stdDev = stats.toy_Gauss.toy(N_max=100)
+    toy,stdDev = stats.toy_Gauss.toy(N_max=1000)
 
     toys.append(toy)
     toy_stds.append(stdDev)
