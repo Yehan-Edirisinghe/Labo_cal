@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1,'/home/unicorn/Documents/Labo_cal')
+sys.path.append('/home/peppo/Documents/Labo_cal/')
 from Libraries.interpolazione import linear
 import numpy as np
 import matplotlib.pyplot as plt
