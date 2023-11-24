@@ -1,31 +1,26 @@
-import sys
-sys.path.append('/home/peppo/Documents/Labo_cal/')
-from Libraries.files import file
-from Libraries.stats import stdDeviation
-
 import numpy as np
-import matplotlib.pyplot as plt
 
-
-def noCorrelation(N):
+def f_no_Corr(N):
 
     x = np.random.uniform(0,np.pi,N)
     # y = np.random.uniform(0,1,N)
+    y = np.random.normal(0,1,size=N)
 
-    y = np.array([np.sin(i*(5+np.random.uniform(0,.25))) for i in x])
+    # y = np.array([np.sin(i*(5+np.random.uniform(0,.25))) for i in x])
 
     return x,y
 
-def linearCorrelation(N):
+def f_yes_Corr(N):
 
-    x = np.random.normal(size=N)
-
+    x = np.random.normal(0,1,size=N)
+    # y = x*np.random.random(N)
     y = np.array([(i*(5+np.random.uniform(0,.35))) for i in x])
 
     return x,y
 
 def cov(x,y):
-    
+    '''returns covariance of x,y'''
+
     sum = 0
     m = np.average(x)
     n = np.average(y)
@@ -37,6 +32,8 @@ def cov(x,y):
     return sum/len(x)
 
 def covMatrix(x,y):
+    '''returns covariance matrix \n\n
+    x and y are ndarrays'''
 
     mat = np.empty((2,2))
 
@@ -51,15 +48,20 @@ def covMatrix(x,y):
 
 if __name__ == '__main__':
 
-    fig,ax = plt.subplots(1,1)
+    import matplotlib.pyplot as plt
+    
+    fig,ax = plt.subplots(1,2)
 
-    # x,y = noCorrelation(2000)
-    x,y = linearCorrelation(2000)
+    x1,y1 = f_no_Corr(2000)
+    x2,y2 = f_yes_Corr(2000)
 
-    ax.scatter(x,y)
+    a,r = covMatrix(x1,y1)
+    b,r2 = covMatrix(x2,y2)
 
-    cov,r = covMatrix(x,y)
+    ax[0].scatter(x1,y1)
+    ax[0].set_xlabel(r)
 
-    print(cov,'\n\n','Correlation:',r)
+    ax[1].scatter(x2,y2)
+    ax[1].set_xlabel(r2)
 
     plt.show()
