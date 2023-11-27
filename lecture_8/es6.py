@@ -1,6 +1,6 @@
-import sys
-sys.path.append('/home/peppo/Documents/Labo_cal/')
-from Libraries.interpolazione import linear
+# import sys
+# sys.path.append('/home/peppo/Documents/Labo_cal/')
+# from Libraries.interpolazione import linear
 import numpy as np
 import matplotlib.pyplot as plt
 import es5
@@ -37,12 +37,12 @@ if __name__== '__main__':
 
     areas,errs,x = data(func,xmin,xmax,ymax,N)
 
-    A,B = linear(np.log(x),errs)
+    #A,B = linear(np.log(x),errs)
 
-    xl = x
-    yl = A+B*xl
+    #xl = x
+    #yl = A+B*xl
 
-    print(A,B)
+    #print(A,B)
     # f = file('sample.txt').write(areas)
 
     ax[0].scatter(x,areas)
@@ -60,7 +60,7 @@ if __name__== '__main__':
     ax[2].set_xlabel('N punti')
     ax[2].set_ylabel('errore')
 
-    ax[2].plot(xl,yl)
+    #ax[2].plot(xl,yl)
     # ax[2].set_xscale('log')    
 
     manager = plt.get_current_fig_manager()
