@@ -36,7 +36,7 @@ def minimum(func,xmin,xmax,precision=.0001, x2=None,x3=None):
 
 def maximum(func,xmin,xmax,precision):
     
-    d = sqrt((xmax-xmin)**2)
+    d = abs(xmax-xmin)
 
     if(d < precision):
         return xmin
