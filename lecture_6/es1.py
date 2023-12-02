@@ -8,7 +8,7 @@ def zero(func, xMin, xMax, prec):
     
     while(sqrt((xMax-xMin)*(xMax-xMin)) > prec):
 
-        avg = (xMax + xMin)/2
+        avg = (xMax + xMin)/2+xMin
         
         if(func(avg)*func(xMin) > 0):
             xMin = avg
