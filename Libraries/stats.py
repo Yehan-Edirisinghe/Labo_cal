@@ -1,117 +1,109 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from random import random
-import matplotlib.pyplot as plt
 
-class graph:
+# BASIC FUNCTIONS #
 
-    def __init__(self,sample,bins = None ):
-        
-        self.sample = sample
-        fig,ax = plt.subplots(1,1)
+def mean(sample):
+    return np.average(sample)
 
-        self.fig=fig
-        self.ax = ax
+def variance(sample):
+    return np.var(sample)
 
-        if bins != None:
-        
-            ax.hist(self.sample,bins=bins)
-        else:
-            Nbins = int(len(self.sample)/10)
-            ax.hist(self.sample,bins=Nbins)
+def stdDeviation(sample):
+    return np.std(sample)
 
-        
-    def subplots(self):
-        return self.ax
+def skewness(sample):
+
+    m = np.average(sample)
+    sk = 0
+    for i in sample:
+
+        sk += (i - m)**3
     
-    def show(self):
-       
-        plt.show()
-   
-class toy_Gauss:
+    return sk/((len(sample)-1)*(np.std(sample)**3))
 
-    def __init__(self,N_max,N_toys) -> None:
-        
-        self.sample = self.Gaussian_Distribution(N_max,N_toys)
+def kurtosis(sample):
 
-    def toy(N_max):
-        '''average of one uniform random distribution'''
+    m = np.average(sample)
+    k = 0
 
-        list = [random() for i in range(N_max)]
-
-        return np.average(list),stdDeviation(list)
-
-    def Gaussian_Distribution(self,N_max,N_toys):
-
-        toys = [self.toy(N_max)[0] for i in range(N_toys)]
-
-        return toys 
+    for i in sample:
+        k += (i - m)**4
     
-    def variance(self):
+    return k/((len(sample)-1)*np.std(sample)**4)
 
-        m = np.average(self.sample)
-        sum = 0
+def stat(sample):
+        '''functions that returns mvsk moments of data pdf'''
 
-        for i in range(len(self.sample)):
-            sum += (self.sample[i]-m)**2
-
-        return sum/len(self.sample)
-    
-    def standard_deviation(self):
-
-        return np.sqrt(self.variance())
-    
-    def stats(self):
-
-        m = np.average(self.sample)
-        v = self.variance()
-        s = 0
-        k = 0
+        m = np.average(sample)
+        v = np.var(sample)
+        s = skewness(sample)
+        k = kurtosis(sample)
 
         return m,v,s,k
+   
+# CLASSES #
+
+class toy_Gauss:
+
+    def __init__(self,mean=0,sigma=1,N=1000,n=100) -> None:
+        
+        self.mean = mean
+        self.sigma = sigma
+        self.sample = self.normal(N,n)
+        self.bins = self.sturges(self.sample)
+        self.stats = stat(self.sample)
+
+    def sturges(self,sample):
+        '''returns the surges function applied to the sample length'''
+
+        N = len(sample)
+        return int(np.ceil(1+3.322*np.log(N)))
+
+    def normal(self,N,n):
+        '''toy normal distribution'''
+
+        delta = np.sqrt(3*n)*self.sigma
+        a = np.empty(N)
+
+        for i in range(N):
+
+            a[i] = np.average([ np.random.uniform(self.mean-delta , self.mean+delta) for j in range(n) ])
+    
+        return a  
 
 class toy_Exp:
 
-    def __init__(self,t_o,t_Max,N=100) -> None:
+    def __init__(self,t_o=1,N=1000):
         
         self.t_o = t_o
-        self.t_Max = t_Max
         self.N = N
-
+        self.bins = int(np.ceil(1+3.322*np.log(N)))
         self.sample = self.exponential()
+        self.stats = stat(self.sample)
 
-    def single_event(self):
-        '''return time interval between two random events, that behave like an exponential'''
+    def sgl_evt(self):
+        '''return number that behave like an exponential '''
 
         return -self.t_o*np.log(1-random())
 
     def exponential(self):
         '''returns a toy exponential sample'''
 
-        return [self.single_event() for i in range(self.N)]
+        return [self.sgl_evt() for i in range(self.N)]
     
-    def stats(self):
-        
-        m = np.average(self.sample)
-        v = '?'
-        s = '?'
-        k = '?'
-
-        return m,v,s,k
-
 class toy_Poiss:
 
     def __init__(self,t_o,t_Max,N):
 
-        self.t_o = t_o
-        self.t_Max = t_Max
-        self.N = N
-        
-        self.exp = toy_Exp(self.t_o,self.t_Max)
+        self.t_o    = t_o
+        self.t_Max  = t_Max
+        self.N      = N
 
+        self.bins = int(np.ceil(1+3.322*np.log(N)))
         self.sample = self.Poisson_Distr()
+        self.stats = stat(self.sample)
 
-    
     def singleEventCounter(self):
 
         t = 0
@@ -120,7 +112,8 @@ class toy_Poiss:
         while(t < self.t_Max):
 
             counter += 1
-            t += self.exp.single_event()
+
+            t += -self.t_o*np.log(1-random())
 
         return counter
 
@@ -128,7 +121,7 @@ class toy_Poiss:
 
         return [self.singleEventCounter() for i in range(self.N)]
     
-    def stats(self):
+    def stats2(self):
 
         m = np.average(self.sample)
         v = m
@@ -136,55 +129,57 @@ class toy_Poiss:
         k = 1/m
 
         return m,v,s,k
+    
+    
 
-def mean(sample):
-    return np.average(sample)
-
-def variance(sample):
-    m = np.average(sample)
-    sum = 0
-
-    for i in range(len(sample)):
-        sum += (sample[i]-m)**2
-
-    return sum/len(sample)
-
-def stdDeviation(sample):
-    return np.sqrt(variance(sample))
 
 if __name__== '__main__':
     
-
+    import matplotlib.pyplot as plt
+    
+    #########################################
     #GAUSSIAN TEST
+    #########################################
 
-    # N = 1000
-    # M = 1000
-    # toy = toy_Gauss(N,M)
-    # sample = toy.sample
-    # stats = toy.stats()
-    # print(stats)
+    # data = toy_Gauss(mean=2,sigma=2)
 
+    # print("mean:\t",data.stats[0],"\n",
+    #       "variance:\t",data.stats[1],"\n",
+    #       "skewness:\t",data.stats[2],"\n",
+    #       "kurtosis:\t",data.stats[3],"\n")
+    
+    # plt.hist(data.sample,bins=data.bins)
+    # plt.show()
+
+    #########################################
     #EXPONENTIAL TEST
+    #########################################
+
+    # to = 4
+    # N = 1000
+    # data = toy_Exp(to,N)
+
+    # print("mean:\t",data.stats[0],"\n",
+    #       "variance:\t",data.stats[1],"\n",
+    #       "skewness:\t",data.stats[2],"\n",
+    #       "kurtosis:\t",data.stats[3],"\n")
+
+    # plt.hist(data.sample,bins=data.bins)
+    # plt.show()
+
+    #########################################
+    # POISSON TEST
+    #########################################
 
     # to = 1
     # tmax = 100
-    # N = 1000
-    # toy = toy_Exp(to,tmax,N)
-    # sample = toy.exponential()
-    # stats = toy.stats()
-    # print(stats)
+    # N = 200
 
-    # POISSON TEST
+    # data = toy_Poiss(to,tmax,N)
 
-    to = 1
-    tmax = 100
-    N = 1000
-    toy = toy_Poiss(to,tmax,N)
-    sample = toy.Poisson_Distr()
-    stats = toy.stats()
-    print(stats)
-
-
-
-    grph = graph(sample)
-    grph.show()
+    # print("mean:\t",data.stats[0],"\n",
+    #       "variance:\t",data.stats[1],"\n",
+    #       "skewness:\t",data.stats[2],"\n",
+    #       "kurtosis:\t",data.stats[3],"\n")
+    # plt.hist(data.sample)
+    # plt.show()

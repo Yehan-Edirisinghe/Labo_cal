@@ -17,7 +17,7 @@ def var(sample):
     return s/(len(sample)-1)
 
 def std(sample):
-    return np.sqrt(var(sample))
+    return np.std(sample)
 
 def skew(sample):
 
