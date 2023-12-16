@@ -141,15 +141,15 @@ if __name__== '__main__':
     #GAUSSIAN TEST
     #########################################
 
-    # data = toy_Gauss(mean=2,sigma=2)
+    data = toy_Gauss(mean=2,sigma=2)
 
-    # print("mean:\t",data.stats[0],"\n",
-    #       "variance:\t",data.stats[1],"\n",
-    #       "skewness:\t",data.stats[2],"\n",
-    #       "kurtosis:\t",data.stats[3],"\n")
+    print("mean:\t",data.stats[0],"\n",
+          "variance:\t",data.stats[1],"\n",
+          "skewness:\t",data.stats[2],"\n",
+          "kurtosis:\t",data.stats[3],"\n")
     
-    # plt.hist(data.sample,bins=data.bins)
-    # plt.show()
+    plt.hist(data.sample,bins=data.bins)
+    plt.show()
 
     #########################################
     #EXPONENTIAL TEST
