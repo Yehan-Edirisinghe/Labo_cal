@@ -12,8 +12,8 @@ def rand(xMin, xMax) :
 
 def rand_TAC(f, xMin, xMax, yMax) :
     
-    x = rand(xMin, xMax)
-    y = rand(0, yMax)
+    x,y = rand(xMin, xMax) , rand(0, yMax)
+    
 
     while (y > f(x)) :
         x = rand(xMin, xMax)
