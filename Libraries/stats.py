@@ -130,8 +130,26 @@ class toy_Poiss:
 
         return m,v,s,k
     
+#
+#   MINIMUM AND ZEROS
+#
+    
+def max_sez_aurea(func,xmin,xmax,prec=.001):
+
+    r = (-1+np.sqrt(5))/2  #golden ratio
     
 
+    while abs(xmax-xmin) > prec:
+
+        a = xmin +     r* abs(xmax-xmin)
+        b = xmin + (1-r)* abs(xmax-xmin)
+        
+        if func(b) < func(a):
+            xmin = b
+        else: 
+            xmax = a
+
+    return xmin,func(xmin)
 
 if __name__== '__main__':
     
@@ -141,15 +159,15 @@ if __name__== '__main__':
     #GAUSSIAN TEST
     #########################################
 
-    # data = toy_Gauss(mean=2,sigma=2)
+    data = toy_Gauss(mean=2,sigma=2)
 
-    # print("mean:\t",data.stats[0],"\n",
-    #       "variance:\t",data.stats[1],"\n",
-    #       "skewness:\t",data.stats[2],"\n",
-    #       "kurtosis:\t",data.stats[3],"\n")
+    print("mean:\t",data.stats[0],"\n",
+          "variance:\t",data.stats[1],"\n",
+          "skewness:\t",data.stats[2],"\n",
+          "kurtosis:\t",data.stats[3],"\n")
     
-    # plt.hist(data.sample,bins=data.bins)
-    # plt.show()
+    plt.hist(data.sample,bins=data.bins)
+    plt.show()
 
     #########################################
     #EXPONENTIAL TEST
