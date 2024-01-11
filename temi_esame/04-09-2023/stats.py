@@ -52,7 +52,7 @@ class toy_Gauss:
         self.sigma = sigma
         self.sample = self.normal(N,n)
         self.bins = self.sturges(self.sample)
-        self.stats = stat(self.sample)
+        # self.stats = stat(self.sample)
 
     def sturges(self,sample):
         '''returns the surges function applied to the sample length'''
@@ -150,7 +150,6 @@ def max_sez_aurea(func,xmin,xmax,prec=.001):
             xmax = a
 
     return xmin,func(xmin)
-
 
 if __name__== '__main__':
     
