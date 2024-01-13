@@ -41,7 +41,14 @@ def stat(sample):
         k = kurtosis(sample)
 
         return m,v,s,k
-   
+
+def normal(mean,sigma,n=1000):
+
+        delta = np.sqrt(3*n)*sigma
+
+        return np.average([ np.random.uniform(mean-delta , mean+delta) for j in range(n) ])
+
+
 # CLASSES #
 
 class toy_Gauss:
@@ -60,17 +67,10 @@ class toy_Gauss:
         N = len(sample)
         return int(np.ceil(1+3.322*np.log(N)))
 
-    
-    def normal(self,mean,sigma,n=1000):
-
-        delta = np.sqrt(3*n)*sigma
-
-        return np.average([ np.random.uniform(mean-delta , mean+delta) for j in range(n) ])
-
     def normal_distr(self,N,n):
         '''toy normal distribution'''
     
-        return [self.normal(self.mean,self.sigma,n) for i in range(N)]
+        return [normal(self.mean,self.sigma,n) for i in range(N)]
 
 class toy_Exp:
 
