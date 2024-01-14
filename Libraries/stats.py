@@ -41,8 +41,17 @@ def stat(sample):
         k = kurtosis(sample)
 
         return m,v,s,k
-   
+
+def sturges(sample):
+    '''returns the surges function applied to the sample length'''
+
+    N = len(sample)
+    return int(np.ceil(1+3.322*np.log(N)))
+
 # CLASSES #
+
+# Gaussian
+
 
 class toy_Gauss:
 
@@ -50,16 +59,14 @@ class toy_Gauss:
         
         self.mean = mean
         self.sigma = sigma
-        self.sample = self.normal(N,n)
-        self.bins = self.sturges(self.sample)
+        self.N = N
+        self.n = n
+        
+    def generate(self):
+
+        self.sample = self.normal_distr(self.N,self.n)
+        self.bins = sturges(self.sample)
         self.stats = stat(self.sample)
-
-    def sturges(self,sample):
-        '''returns the surges function applied to the sample length'''
-
-        N = len(sample)
-        return int(np.ceil(1+3.322*np.log(N)))
-
     
     def normal(self,mean,sigma,n=1000):
 
@@ -78,19 +85,22 @@ class toy_Exp:
         
         self.t_o = t_o
         self.N = N
-        self.bins = int(np.ceil(1+3.322*np.log(N)))
+
+    def generate(self):
+        
         self.sample = self.exponential()
+        self.bins = sturges(self.sample)
         self.stats = stat(self.sample)
 
-    def sgl_evt(self):
+    def exp(self,t_0):
         '''return number that behave like an exponential '''
 
-        return -self.t_o*np.log(1-random())
+        return -t_0*np.log(1-random())
 
     def exponential(self):
         '''returns a toy exponential sample'''
 
-        return [self.sgl_evt() for i in range(self.N)]
+        return [self.exp(self.t_o) for i in range(self.N)]
     
 class toy_Poiss:
 
@@ -100,8 +110,9 @@ class toy_Poiss:
         self.t_Max  = t_Max
         self.N      = N
 
-        self.bins = int(np.ceil(1+3.322*np.log(N)))
+    def generate(self):
         self.sample = self.Poisson_Distr()
+        self.bins = sturges(self.sample)
         self.stats = stat(self.sample)
 
     def singleEventCounter(self):
@@ -110,9 +121,7 @@ class toy_Poiss:
         counter = 0
         
         while(t < self.t_Max):
-
             counter += 1
-
             t += -self.t_o*np.log(1-random())
 
         return counter
@@ -120,85 +129,3 @@ class toy_Poiss:
     def Poisson_Distr(self):
 
         return [self.singleEventCounter() for i in range(self.N)]
-    
-    def stats2(self):
-
-        m = np.average(self.sample)
-        v = m
-        s = 1/np.sqrt(m)
-        k = 1/m
-
-        return m,v,s,k
-    
-#
-#   MINIMUM AND ZEROS
-#
-    
-def max_sez_aurea(func,xmin,xmax,prec=.001):
-
-    r = (-1+np.sqrt(5))/2  #golden ratio
-    
-
-    while abs(xmax-xmin) > prec:
-
-        a = xmin +     r* abs(xmax-xmin)
-        b = xmin + (1-r)* abs(xmax-xmin)
-        
-        if func(b) < func(a):
-            xmin = b
-        else: 
-            xmax = a
-
-    return xmin,func(xmin)
-
-
-if __name__== '__main__':
-    
-    import matplotlib.pyplot as plt
-    
-    #########################################
-    #GAUSSIAN TEST
-    #########################################
-
-    data = toy_Gauss(mean=2,sigma=2)
-
-    print("mean:\t",data.stats[0],"\n",
-          "variance:\t",data.stats[1],"\n",
-          "skewness:\t",data.stats[2],"\n",
-          "kurtosis:\t",data.stats[3],"\n")
-    
-    plt.hist(data.sample,bins=data.bins)
-    plt.show()
-
-    #########################################
-    #EXPONENTIAL TEST
-    #########################################
-
-    # to = 4
-    # N = 1000
-    # data = toy_Exp(to,N)
-
-    # print("mean:\t",data.stats[0],"\n",
-    #       "variance:\t",data.stats[1],"\n",
-    #       "skewness:\t",data.stats[2],"\n",
-    #       "kurtosis:\t",data.stats[3],"\n")
-
-    # plt.hist(data.sample,bins=data.bins)
-    # plt.show()
-
-    #########################################
-    # POISSON TEST
-    #########################################
-
-    # to = 1
-    # tmax = 100
-    # N = 200
-
-    # data = toy_Poiss(to,tmax,N)
-
-    # print("mean:\t",data.stats[0],"\n",
-    #       "variance:\t",data.stats[1],"\n",
-    #       "skewness:\t",data.stats[2],"\n",
-    #       "kurtosis:\t",data.stats[3],"\n")
-    # plt.hist(data.sample)
-    # plt.show()

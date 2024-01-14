@@ -7,7 +7,6 @@ def read_file(path,type = float):
     with open(path, 'r') as file:
         for i in file:
             dati.append(type(i))
-    
     return np.array(dati)
 
 def write_file(path,data):
