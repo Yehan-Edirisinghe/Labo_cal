@@ -1,7 +1,5 @@
 import numpy as np
 
-
-
 def max_sez_aurea(func,xmin,xmax,*args,prec=.0001):
     '''func of type f(x,args)'''
     r = (-1+np.sqrt(5))/2  #golden ratio
@@ -18,20 +16,11 @@ def max_sez_aurea(func,xmin,xmax,*args,prec=.0001):
 
     return xmin,func(xmin,*args)
 
-def f(x,a,b):
-    return np.sin(a*x)+b
 
-x,y = max_sez_aurea(f,0,np.pi, np.pi,0)
-print(x,y)
+if __name__ == '__main__':
 
-# def funz(x,y,z):
+    def f(x,a,b):
+        return np.sin(a*x)+b
 
-#     print(f"x = {x}")
-#     print(f"y = {y}")
-#     print(f"z = {z}")
-#     return x+y+z
-
-# def foo(func,*args):
-#     return func(9,*args)
-
-# print(foo(funz,0,1))
+    x,y = max_sez_aurea(f,0,np.pi, np.pi,0)
+    print(x,y)
