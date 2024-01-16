@@ -14,4 +14,3 @@ def write_file(path,data):
     with open(path, 'w') as output:
         for i in data:
             output.write(str(i)+'\n')
-    return 'completed'

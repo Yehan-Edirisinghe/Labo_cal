@@ -1,5 +1,4 @@
 import numpy as np
-from random import random
 
 # BASIC FUNCTIONS #
 
@@ -88,16 +87,16 @@ class toy_Exp:
 
     def generate(self):
         
-        self.sample = self.exponential()
+        self.sample = self.exp_distr()
         self.bins = sturges(self.sample)
         self.stats = stat(self.sample)
 
     def exp(self,t_0):
-        '''return number that behave like an exponential '''
+        '''returns number that behave like an exponential '''
 
-        return -t_0*np.log(1-random())
+        return -t_0*np.log(1-np.random.uniform())
 
-    def exponential(self):
+    def exp_distr(self):
         '''returns a toy exponential sample'''
 
         return [self.exp(self.t_o) for i in range(self.N)]
@@ -122,7 +121,7 @@ class toy_Poiss:
         
         while(t < self.t_Max):
             counter += 1
-            t += -self.t_o*np.log(1-random())
+            t += -self.t_o*np.log(1-np.random.uniform())
 
         return counter
 
