@@ -52,14 +52,6 @@ def Montecarlo(f,xmin,xmax,N,*args,**kwargs) -> tuple:
 
     return integ,sigma
 
-def rand_TAC(xmin,xmax,ymax,*args,**kwargs):
-    '''returns r.v. ~ f(x,args)'''
-    x = np.random.uniform(xmin,xmax)
-    y = np.random.uniform(0,ymax)
-    if f(x,*args,**kwargs) < y:
-        return rand_TAC(xmin,xmax,ymax)
-    return x
-
 if __name__ == '__main__':
 
     ###EXAMPLE###
