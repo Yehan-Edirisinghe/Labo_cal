@@ -3,23 +3,30 @@ import numpy as np
 # BASIC FUNCTIONS #
 
 def mean(sample):
-    return np.average(sample)
+    sum = 0
+    for i in sample:
+        sum +=i
+    return sum/len(sample)
 
 def variance(sample):
-    return np.var(sample)
+    m = np.average(sample)
+    v = 0
+    for i in sample:
+        v += (i - m)**2
+    
+    return v/((len(sample)))
 
-def stdDeviation(sample):
-    return np.std(sample)
+def std(sample):
+    return np.sqrt(variance(sample))
 
 def skewness(sample):
 
-    m = np.average(sample)
+    m = mean(sample)
     sk = 0
     for i in sample:
-
         sk += (i - m)**3
-    
-    return sk/((len(sample)-1)*(np.std(sample)**3))
+
+    return sk/((len(sample)-1)*(std(sample)**3))
 
 def kurtosis(sample):
 
@@ -28,14 +35,14 @@ def kurtosis(sample):
 
     for i in sample:
         k += (i - m)**4
-    
-    return k/((len(sample)-1)*np.std(sample)**4)
+
+    return k/((len(sample)-1)*np.std(sample)**4) -3
 
 def stat(sample):
         '''functions that returns mvsk moments of data pdf'''
 
-        m = np.average(sample)
-        v = np.var(sample)
+        m = mean(sample)
+        v = std(sample)
         s = skewness(sample)
         k = kurtosis(sample)
 
@@ -48,9 +55,6 @@ def sturges(sample):
     return int(np.ceil(1+3.322*np.log(N)))
 
 # CLASSES #
-
-# Gaussian
-
 
 class toy_Gauss:
 
@@ -66,6 +70,8 @@ class toy_Gauss:
         self.sample = self.normal_distr(self.N,self.n)
         self.bins = sturges(self.sample)
         self.stats = stat(self.sample)
+
+        return self.sample
     
     def normal(self,mean,sigma,n=1000):
 
@@ -90,6 +96,7 @@ class toy_Exp:
         self.sample = self.exp_distr()
         self.bins = sturges(self.sample)
         self.stats = stat(self.sample)
+        return self.sample
 
     def exp(self,t_0):
         '''returns number that behave like an exponential '''
@@ -113,6 +120,7 @@ class toy_Poiss:
         self.sample = self.Poisson_Distr()
         self.bins = sturges(self.sample)
         self.stats = stat(self.sample)
+        return self.sample
 
     def singleEventCounter(self):
 
@@ -128,3 +136,22 @@ class toy_Poiss:
     def Poisson_Distr(self):
 
         return [self.singleEventCounter() for i in range(self.N)]
+    
+if __name__ == '__main__':
+    from scipy.stats import kurtosis as kk,skew
+    import matplotlib.pyplot as plt
+
+    data = toy_Poiss(2,10,1000).generate()
+
+
+    var = variance(data)
+    stnd = std(data)
+    skw = skewness(data)
+    kurt = kurtosis(data)
+
+    print(var, np.var(data))
+    print(stnd, np.std(data))
+    print(skw, skew(data))
+    print(kurt, kk(data))
+    plt.hist(data,bins=sturges(data))
+    plt.show()
