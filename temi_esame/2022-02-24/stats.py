@@ -114,14 +114,14 @@ class toy_Exp:
     
 class toy_Poiss:
 
-    def __init__(self,t0,t1,N=1000):
+    def __init__(self,mean,t0=1,N=1000):
 
-        self.t_o    = t0
-        self.t_Max  = t1
+        self.mean  = mean
         self.N      = N
+        self.t0    = t0
 
-        # if t_Max < t_o:
-        #     raise Exception("tmax has to be grater than to")
+        if mean < t0:
+            raise Exception("mean has to be grater than to")
     
     def generate(self):
         self.sample = self.Poisson_Distr()
@@ -129,42 +129,27 @@ class toy_Poiss:
         self.stats = stat(self.sample)
         return self.sample
     
-    def rnd_poiss(self,media):
-        x = 0
-        p = np.exp(-media)
-        s = p
-        u = random()
-
-        while u > s:
-            x += 1
-            p *= media / x
-            s += p
-
-        return x
-    
-    def singleEventCounter(self):
+    def rand_poisson(self,mean,t0=1):
 
         t, counter = 0,0
-        
-        while(t < self.t_Max):
+
+        while(t < mean):
             counter += 1
-            t += np.random.exponential(self.t_o)
-            # t += -self.t_Max*np.log(1-np.random.uniform())
+            t += -t0*np.log(1-np.random.uniform())
         
-        return t/counter
+        return counter-1
 
     def Poisson_Distr(self):
-
-        return [self.singleEventCounter() for i in range(self.N)]
+        return [self.rand_poisson(self.mean,self.t0) for i in range(self.N)]
     
 if __name__ == '__main__':
 
     from scipy.stats import kurtosis as kk,skew
     import matplotlib.pyplot as plt
 
-    data = toy_Poiss(3,4,1000).generate()
-    # data = [np.random.standard_exponential() for i in range(200)]
-    print(np.mean(data))
+    data = toy_Poiss(12,N=1000).generate()
+    
+    print(stat(data))
 
     plt.hist(data,bins=sturges(data))
     plt.show()
