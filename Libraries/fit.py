@@ -1,6 +1,6 @@
 from iminuit import Minuit
 import numpy as np
-from scipy.stats import chi2
+import scipy.stats as sc
 
 def fit(cost,*args,interactive=False,**kwargs):
 
@@ -20,31 +20,28 @@ def loglikelihood(pdf,sample,*args,**kwargs):
     return np.sum([np.log(pdf(x,*args,**kwargs)) for x in sample])
 
 def p_value(q,doF):
-    return chi2.cdf(q,doF)
+    return sc.chi2.sf(q,doF)
 
 if __name__ == '__main__':
+
     import matplotlib.pyplot as plt
-    from scipy.stats import norm
-    from stats import *
+    from scipy.stats import expon
+    from stats import*
     from iminuit.cost import*
 
+    data = toy_Exp(l=3).generate()
+    b_c, b_e, b_p = plt.hist(data,density=True,bins=100)
+    y_e = .01*np.ones(len(b_c))
+
     def pdf(x,a,b):
-        return norm.pdf(x,a,b)
-
-    def cdf(x,a,b):
-        return norm.cdf(x,a,b)
+        return b*expon.pdf(x,0,a)
     
-    a,b = 1.5,.5
-    data = toy_Gauss(a,b,2000).generate()
-
-    # t = np.linspace(1,3,100)
-    # ML = [likelihood(pdf,data,k=200,a=i,b=b) for i in t]
-    bin_cont,bin_edges,p = plt.hist(data,sturges(data))
-
-    plt.waitforbuttonpress()
-    
-    cst = UnbinnedNLL(data,pdf)
-    # cst2 = BinnedNLL(bin_cont,bin_edges,cdf)
-
-    f = fit(cst,a=0,b=1,interactive=True)
-    plt.show()
+    cst = LeastSquares(b_e[1:],b_c,y_e,pdf)
+    m = Minuit(cst,a=1,b=1)
+    m.migrad()
+    m.hesse()
+    # print(m)
+    print(m.hesse())
+    m.interactive()
+    print(p_value(m.fval,m.ndof))
+    # plt.show()

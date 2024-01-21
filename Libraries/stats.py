@@ -90,9 +90,9 @@ class toy_Gauss:
 
 class toy_Exp:
 
-    def __init__(self,t_o=1,N=1000):
+    def __init__(self,l=1,N=1000):
         
-        self.t_o = t_o
+        self.l = l
         self.N = N
 
     def generate(self):
@@ -102,19 +102,21 @@ class toy_Exp:
         self.stats = stat(self.sample)
         return self.sample
 
-    def exp(self,t_0):
-        '''returns number that behave like an exponential '''
+    def exp(self,l):
+        '''returns number that behave like an exponential'''
 
-        return -t_0*np.log(1-np.random.uniform())
+        return -l*np.log(1-np.random.uniform())
 
     def exp_distr(self):
         '''returns a toy exponential sample'''
 
-        return [self.exp(self.t_o) for i in range(self.N)]
+        return [self.exp(self.l) for i in range(self.N)]
     
 class toy_Poiss:
 
     def __init__(self,lambda_,t0=1,N=1000):
+        '''lamba: mean of distribution\n
+            t0 coefficient of expon'''
 
         self.lambda_  = lambda_
         self.N      = N
@@ -145,10 +147,23 @@ class toy_Poiss:
 if __name__ == '__main__':
 
     import matplotlib.pyplot as plt
+    from fit import*
+    from iminuit.cost import *
+    from scipy.stats import expon
 
-    data = toy_Poiss(120,N=1000).generate()
+    def f(x,a,b):
+        return expon.pdf(x,a,b)
     
-    print(stat(data))
+    N = 1000
+    x = toy_Exp(N=N).generate()
+    x2 = np.random.standard_exponential(N)
+    bin_cont, bin_edges, pol = plt.hist(x)
+    plt.close()
 
-    plt.hist(data)
+    err = 0.3*np.ones(len(bin_cont))
+    cst = LeastSquares(bin_edges[1:],bin_cont,err,f)
+
+    f = fit(cst,a=0,b=1)
+    f.interactive()
+    print(f)
     plt.show()
