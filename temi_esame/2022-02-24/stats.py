@@ -142,6 +142,7 @@ class toy_Poiss:
     def Poisson_Distr(self):
         return [self.rand_poisson(self.mean,self.t0) for i in range(self.N)]
     
+    
 if __name__ == '__main__':
 
     from scipy.stats import kurtosis as kk,skew
