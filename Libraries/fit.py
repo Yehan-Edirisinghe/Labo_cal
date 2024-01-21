@@ -24,7 +24,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from scipy.stats import norm
     from stats import *
-    from iminuit.cost import LeastSquares,UnbinnedNLL,BinnedNLL
+    from iminuit.cost import*
 
     def pdf(x,a,b):
         return norm.pdf(x,a,b)
@@ -35,18 +35,15 @@ if __name__ == '__main__':
     a,b = 1.5,.5
     data = toy_Gauss(a,b,2000).generate()
 
-    t = np.linspace(1,3,100)
-    ML = [likelihood(pdf,data,k=200,a=i,b=b) for i in t]
+    # t = np.linspace(1,3,100)
+    # ML = [likelihood(pdf,data,k=200,a=i,b=b) for i in t]
     bin_cont,bin_edges,p = plt.hist(data,sturges(data))
 
+    plt.waitforbuttonpress()
+    
     cst = UnbinnedNLL(data,pdf)
-    cst2 = BinnedNLL(bin_cont,bin_edges,cdf)
+    # cst2 = BinnedNLL(bin_cont,bin_edges,cdf)
 
     f = fit(cst,a=0,b=1)
-    f2 = fit(cst2,a=0,b=1)
-
-    print(f2)
-    print(p_value(f2.fval,f2.ndof))
-    # plt.hist(data,bins=100)
-    # plt.plot(t,ML)
-    # plt.show()
+    f.interactive()
+    plt.show()
