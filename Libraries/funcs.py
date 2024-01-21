@@ -57,7 +57,7 @@ def rand_TAC(xmin,xmax,ymax,*args,**kwargs):
     x = np.random.uniform(xmin,xmax)
     y = np.random.uniform(0,ymax)
     if f(x,*args,**kwargs) < y:
-        return rand_TAC(xmin,xmax,ymax)
+        return rand_TAC(xmin,xmax,ymax,*args,**kwargs)
     return x
 
 if __name__ == '__main__':
