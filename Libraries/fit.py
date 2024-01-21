@@ -9,7 +9,7 @@ def fit(cost,*args,**kwargs):
     my_minuit.hesse()
     return my_minuit
 
-def likelihood(pdf,sample,k=None,*args,**kwargs):
+def likelihood(pdf,sample,*args,k=None,**kwargs):
     '''pdf(x,*args,**kwargs)'''
     return np.prod([ pdf(x,*args,**kwargs) for x in sample[:k]])
 

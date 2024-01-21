@@ -114,14 +114,14 @@ class toy_Exp:
     
 class toy_Poiss:
 
-    def __init__(self,mean,t0=1,N=1000):
+    def __init__(self,lambda_,t0=1,N=1000):
 
-        self.mean  = mean
+        self.lambda_  = lambda_
         self.N      = N
         self.t0    = t0
 
-        if mean < t0:
-            raise Exception("mean has to be grater than to")
+        if lambda_ < t0:
+            raise Exception("lambda_ has to be grater than to")
     
     def generate(self):
         self.sample = self.Poisson_Distr()
@@ -129,18 +129,18 @@ class toy_Poiss:
         self.stats = stat(self.sample)
         return self.sample
     
-    def rand_poisson(self,mean,t0=1):
+    def rand_poisson(self,lambda_,t0=1):
 
         t, counter = 0,0
 
-        while(t < mean):
+        while(t < lambda_):
             counter += 1
             t += -t0*np.log(1-np.random.uniform())
         
         return counter-1
 
     def Poisson_Distr(self):
-        return [self.rand_poisson(self.mean,self.t0) for i in range(self.N)]
+        return [self.rand_poisson(self.lambda_,self.t0) for i in range(self.N)]
     
 if __name__ == '__main__':
 
