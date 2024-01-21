@@ -2,11 +2,13 @@ from iminuit import Minuit
 import numpy as np
 from scipy.stats import chi2
 
-def fit(cost,*args,**kwargs):
+def fit(cost,*args,interactive=False,**kwargs):
 
     my_minuit = Minuit(cost,*args,**kwargs)
     my_minuit.migrad()
     my_minuit.hesse()
+    if interactive == True:
+        my_minuit.interactive()
     return my_minuit
 
 def likelihood(pdf,sample,*args,k=None,**kwargs):
@@ -44,6 +46,5 @@ if __name__ == '__main__':
     cst = UnbinnedNLL(data,pdf)
     # cst2 = BinnedNLL(bin_cont,bin_edges,cdf)
 
-    f = fit(cst,a=0,b=1)
-    f.interactive()
+    f = fit(cst,a=0,b=1,interactive=True)
     plt.show()
