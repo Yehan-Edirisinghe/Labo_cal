@@ -22,6 +22,12 @@ def loglikelihood(pdf,sample,*args,**kwargs):
 def p_value(q,doF):
     return sc.chi2.sf(q,doF)
 
+def chi2_corr(chi2,N_K):
+    a = N_K/chi2
+    chi2_cor = chi2/a
+    return chi2_cor
+
+
 if __name__ == '__main__':
 
     import matplotlib.pyplot as plt
